@@ -3,84 +3,937 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkUnlocker - Get KS Rivals Script</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Get KS Rivals Script | LinkUnlocker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-card: #161618;
+            --bg-card-hover: #1a1a1d;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-glow: rgba(99, 102, 241, 0.5);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-color: #27272a;
+            --success: #22c55e;
+            --youtube: #ff0000;
+            --discord: #5865f2;
+            --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            --gradient-2: linear-gradient(135deg, #0a0a0b 0%, #1a1a2e 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
+            animation: bgMove 20s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(2%, 2%) rotate(1deg); }
+            50% { transform: translate(0, 4%) rotate(0deg); }
+            75% { transform: translate(-2%, 2%) rotate(-1deg); }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 36px;
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+            animation: logoFloat 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            animation: logoShine 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes logoShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 32px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .progress-count {
+            font-size: 13px;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--bg-card);
+            border-radius: 100px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 100px;
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Cards */
+        .cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card.completed {
+            border-color: var(--success);
+            background: rgba(34, 197, 94, 0.05);
+        }
+
+        .card.completed .card-icon {
+            background: var(--success);
+            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+        }
+
+        .card.completed .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card-icon.youtube {
+            background: var(--youtube);
+            box-shadow: 0 8px 24px rgba(255, 0, 0, 0.2);
+        }
+
+        .card-icon.discord {
+            background: var(--discord);
+            box-shadow: 0 8px 24px rgba(88, 101, 242, 0.2);
+        }
+
+        .check-icon {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid var(--bg-primary);
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .card-description {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .card-arrow {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .card-arrow {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--accent-primary);
+            transform: translateX(4px);
+        }
+
+        .card.completed .card-arrow {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        /* Get Script Button */
+        .get-script-btn {
+            width: 100%;
+            padding: 18px 24px;
+            border-radius: 14px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: not-allowed;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--bg-card);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+        }
+
+        .get-script-btn.locked i {
+            animation: shake 2s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .get-script-btn.unlocked {
+            background: var(--gradient-1);
+            color: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 
+                0 10px 40px rgba(99, 102, 241, 0.4),
+                0 0 0 0 rgba(99, 102, 241, 0.4);
+            animation: unlockPulse 2s infinite;
+        }
+
+        @keyframes unlockPulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 10px 40px rgba(99, 102, 241, 0.4),
+                    0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            50% { 
+                box-shadow: 
+                    0 15px 50px rgba(99, 102, 241, 0.5),
+                    0 0 0 10px rgba(99, 102, 241, 0);
+            }
+        }
+
+        .get-script-btn.unlocked::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.15) 50%,
+                transparent 70%
+            );
+            animation: btnShine 3s infinite;
+        }
+
+        @keyframes btnShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .get-script-btn.unlocked:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 20px 50px rgba(99, 102, 241, 0.5),
+                0 0 0 0 rgba(99, 102, 241, 0);
+        }
+
+        .get-script-btn.unlocked:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-icon {
+            font-size: 18px;
+        }
+
+        /* Status Message */
+        .status-message {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .status-message i {
+            font-size: 14px;
+        }
+
+        .status-message.complete {
+            color: var(--success);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .footer-link {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-secondary);
+        }
+
+        /* Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 16px 24px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .toast-content h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .toast-content p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 16px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .logo {
+                width: 70px;
+                height: 70px;
+                font-size: 30px;
+            }
+
+            .card {
+                padding: 16px;
+            }
+
+            .card-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
+            }
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="background-animation"></div>
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
     
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti"></div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="toast-content">
+            <h4>Step Completed!</h4>
+            <p>Keep going to unlock the script</p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
     <div class="container">
-        <header>
-            <h1 class="logo">
-                <span class="logo-icon">🔓</span>
-                LinkUnlocker
-            </h1>
-            <p class="subtitle">Unlock Premium Content</p>
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-code"></i>
+            </div>
+            <h1 class="title">Get KS Rivals Script</h1>
+            <p class="subtitle">Complete all steps below to unlock your script</p>
         </header>
 
-        <main class="card">
-            <div class="card-header">
-                <h2>Get KS Rivals Script</h2>
-                <p class="description">Complete the steps below to unlock access</p>
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-label">Progress</span>
+                <span class="progress-count"><span id="completedCount">0</span>/3 completed</span>
             </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
 
-            <div class="steps-container">
-                <div class="step" id="step1">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Subscribe to Channel</h3>
-                        <p>Subscribe to our YouTube channel</p>
-                        <button class="action-btn subscribe-btn" id="subscribeBtn">
-                            <i class="fab fa-youtube"></i>
-                            Subscribe Now
-                        </button>
-                    </div>
-                    <div class="step-status" id="status1">
-                        <i class="fas fa-circle-notch fa-spin"></i>
+        <!-- Cards -->
+        <div class="cards">
+            <!-- YouTube Subscribe -->
+            <div class="card" id="subscribeCard" onclick="handleAction('subscribe')">
+                <div class="card-icon youtube">
+                    <i class="fab fa-youtube"></i>
+                    <div class="check-icon">
+                        <i class="fas fa-check"></i>
                     </div>
                 </div>
-
-                <div class="step" id="step2">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Like the Video</h3>
-                        <p>Show your support by liking our video</p>
-                        <button class="action-btn like-btn" id="likeBtn">
-                            <i class="fas fa-thumbs-up"></i>
-                            Like Video
-                        </button>
-                    </div>
-                    <div class="step-status" id="status2">
-                        <i class="fas fa-circle-notch fa-spin"></i>
-                    </div>
+                <div class="card-content">
+                    <div class="card-title">Subscribe to Channel</div>
+                    <div class="card-description">Subscribe to KS Script on YouTube</div>
+                </div>
+                <div class="card-arrow">
+                    <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
 
-            <div class="unlock-container">
-                <button class="unlock-btn" id="unlockBtn" disabled>
-                    <span class="unlock-text">
-                        <i class="fas fa-lock"></i>
-                        Complete All Steps to Unlock
-                    </span>
-                    <div class="unlock-glow"></div>
-                </button>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
+            <!-- YouTube Like -->
+            <div class="card" id="likeCard" onclick="handleAction('like')">
+                <div class="card-icon youtube">
+                    <i class="fas fa-heart"></i>
+                    <div class="check-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Like the Video</div>
+                    <div class="card-description">Show your support with a like</div>
+                </div>
+                <div class="card-arrow">
+                    <i class="fas fa-arrow-right"></i>
                 </div>
             </div>
-        </main>
 
-        <footer>
-            <p>&copy; 2024 LinkUnlocker. All rights reserved.</p>
+            <!-- Discord Join -->
+            <div class="card" id="discordCard" onclick="handleAction('discord')">
+                <div class="card-icon discord">
+                    <i class="fab fa-discord"></i>
+                    <div class="check-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Join Discord Server</div>
+                    <div class="card-description">Join our community for updates</div>
+                </div>
+                <div class="card-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Get Script Button -->
+        <button class="get-script-btn locked" id="getScriptBtn" onclick="getScript()">
+            <i class="fas fa-lock btn-icon"></i>
+            <span id="btnText">Complete All Steps to Unlock</span>
+        </button>
+
+        <!-- Status Message -->
+        <div class="status-message" id="statusMessage">
+            <i class="fas fa-info-circle"></i>
+            <span>Complete all 3 steps to unlock the script</span>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-text">
+                Powered by <a href="#" class="footer-link">KS Script</a> • Made with ❤️
+            </p>
         </footer>
     </div>
 
-    <div class="particles" id="particles"></div>
+    <script>
+        // State management
+        const state = {
+            subscribe: false,
+            like: false,
+            discord: false
+        };
 
-    <script src="script.js"></script>
+        // URLs
+        const urls = {
+            subscribe: 'https://www.youtube.com/@KS_SCRIPT_Owner?sub_confirmation=1',
+            like: 'https://www.youtube.com/shorts/bGm4dt_Isrk',
+            discord: 'https://discord.com/channels/@me', // Replace with actual Discord invite link
+            script: 'https://ks-script.github.io/KS.WEB/'
+        };
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Handle action click
+        function handleAction(action) {
+            // Open the URL
+            window.open(urls[action], '_blank');
+            
+            // Mark as completed after a short delay
+            setTimeout(() => {
+                if (!state[action]) {
+                    state[action] = true;
+                    updateUI();
+                    showToast();
+                    
+                    // Check if all completed
+                    if (isAllCompleted()) {
+                        setTimeout(() => {
+                            createConfetti();
+                        }, 500);
+                    }
+                }
+            }, 1000);
+        }
+
+        // Update UI based on state
+        function updateUI() {
+            const cards = {
+                subscribe: document.getElementById('subscribeCard'),
+                like: document.getElementById('likeCard'),
+                discord: document.getElementById('discordCard')
+            };
+
+            let completedCount = 0;
+
+            // Update cards
+            for (const [key, card] of Object.entries(cards)) {
+                if (state[key]) {
+                    card.classList.add('completed');
+                    completedCount++;
+                }
+            }
+
+            // Update progress
+            document.getElementById('completedCount').textContent = completedCount;
+            document.getElementById('progressFill').style.width = (completedCount / 3 * 100) + '%';
+
+            // Update button
+            const btn = document.getElementById('getScriptBtn');
+            const btnText = document.getElementById('btnText');
+            const statusMessage = document.getElementById('statusMessage');
+
+            if (isAllCompleted()) {
+                btn.classList.remove('locked');
+                btn.classList.add('unlocked');
+                btn.innerHTML = '<i class="fas fa-unlock btn-icon"></i><span>Get Your Script Now!</span>';
+                statusMessage.innerHTML = '<i class="fas fa-check-circle"></i><span>All steps completed! Click the button above</span>';
+                statusMessage.classList.add('complete');
+            }
+        }
+
+        // Check if all steps are completed
+        function isAllCompleted() {
+            return state.subscribe && state.like && state.discord;
+        }
+
+        // Get script action
+        function getScript() {
+            if (isAllCompleted()) {
+                // Add ripple effect
+                const btn = document.getElementById('getScriptBtn');
+                createRipple(btn, event);
+                
+                setTimeout(() => {
+                    window.location.href = urls.script;
+                }, 300);
+            }
+        }
+
+        // Create ripple effect
+        function createRipple(element, e) {
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            
+            const rect = element.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e?.clientX || rect.left + rect.width / 2) - rect.left - size / 2 + 'px';
+            ripple.style.top = (e?.clientY || rect.top + rect.height / 2) - rect.top - size / 2 + 'px';
+            
+            element.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        }
+
+        // Show toast notification
+        function showToast() {
+            const toast = document.getElementById('toast');
+            const completedCount = Object.values(state).filter(Boolean).length;
+            
+            toast.querySelector('h4').textContent = 'Step Completed!';
+            toast.querySelector('p').textContent = 
+                completedCount === 3 
+                    ? 'All steps done! Script unlocked!' 
+                    : `${3 - completedCount} more step${3 - completedCount > 1 ? 's' : ''} to go`;
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const container = document.getElementById('confetti');
+            const colors = ['#6366f1', '#8b5cf6', '#22c55e', '#f59e0b', '#ec4899'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // Add hover effects to cards
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mouseenter', (e) => {
+                    createRipple(card, e);
+                });
+            });
+        });
+
+        // Prevent accidental clicks
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!this.classList.contains('completed')) {
+                    createRipple(this, e);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
