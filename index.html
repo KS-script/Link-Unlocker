@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get KS Rivals Script | LinkUnlocker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,22 +14,28 @@
         }
 
         :root {
-            --bg-primary: #0a0a0b;
-            --bg-secondary: #111113;
-            --bg-card: #161618;
-            --bg-card-hover: #1a1a1d;
+            --bg-primary: #050507;
+            --bg-secondary: #0a0a0f;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.08);
             --accent-primary: #6366f1;
-            --accent-secondary: #8b5cf6;
-            --accent-glow: rgba(99, 102, 241, 0.5);
-            --text-primary: #ffffff;
+            --accent-secondary: #a855f7;
+            --accent-tertiary: #06b6d4;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --text-primary: #fafafa;
             --text-secondary: #a1a1aa;
-            --text-muted: #71717a;
-            --border-color: #27272a;
-            --success: #22c55e;
-            --youtube: #ff0000;
+            --text-muted: #52525b;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.4);
+            --youtube: #ff0033;
             --discord: #5865f2;
-            --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            --gradient-2: linear-gradient(135deg, #0a0a0b 0%, #1a1a2e 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -39,10 +45,12 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Animated Background */
-        .bg-animation {
+        /* Advanced Animated Background */
+        .bg-wrapper {
             position: fixed;
             top: 0;
             left: 0;
@@ -52,157 +60,308 @@
             overflow: hidden;
         }
 
-        .bg-animation::before {
-            content: '';
+        .bg-gradient {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
-            animation: bgMove 20s ease-in-out infinite;
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 80% at 80% 50%, rgba(168, 85, 247, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 60% at 50% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+            animation: bgFloat 20s ease-in-out infinite;
         }
 
-        @keyframes bgMove {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(2%, 2%) rotate(1deg); }
-            50% { transform: translate(0, 4%) rotate(0deg); }
-            75% { transform: translate(-2%, 2%) rotate(-1deg); }
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(2%, -2%) scale(1.02); }
+            50% { transform: translate(-1%, 3%) scale(0.98); }
+            75% { transform: translate(-2%, -1%) scale(1.01); }
         }
 
-        /* Floating Particles */
-        .particles {
-            position: fixed;
+        /* Mesh Grid */
+        .mesh-grid {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 30s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: orbFloat 15s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            top: 10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--accent-tertiary), var(--accent-primary));
+            top: 60%;
+            right: -5%;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-tertiary));
+            bottom: 10%;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Floating Particles */
+        .particles-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--accent-primary);
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
-            opacity: 0.3;
-            animation: float 15s infinite;
+            animation: particleRise 20s linear infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        .particle::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to top, rgba(255,255,255,0.3), transparent);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes particleRise {
+            0% { 
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) translateX(10px) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) translateX(-10px) scale(1);
+            }
+            100% { 
+                transform: translateY(-10vh) translateX(0) scale(0);
+                opacity: 0;
+            }
         }
 
         /* Main Container */
         .container {
-            max-width: 520px;
+            max-width: 480px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 50px 24px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Glass Card Container */
+        .main-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 40px 32px;
+            position: relative;
+            overflow: hidden;
+            animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent
+            );
         }
 
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
+        }
+
+        .logo-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-1);
-            border-radius: 20px;
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 36px;
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
-            animation: logoFloat 3s ease-in-out infinite;
+            font-size: 28px;
             position: relative;
-            overflow: hidden;
+            z-index: 2;
+            animation: logoBreath 4s ease-in-out infinite;
+            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.5);
         }
 
-        .logo::before {
-            content: '';
+        .logo-glow {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.1) 50%,
-                transparent 70%
-            );
-            animation: logoShine 3s ease-in-out infinite;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 18px;
+            transform: translate(-50%, -50%);
+            filter: blur(25px);
+            opacity: 0.6;
+            animation: logoGlowPulse 3s ease-in-out infinite;
+            z-index: 1;
         }
 
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        @keyframes logoBreath {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(2deg); }
         }
 
-        @keyframes logoShine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
+        @keyframes logoGlowPulse {
+            0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .logo-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 90px;
+            height: 90px;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 22px;
+            transform: translate(-50%, -50%);
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0; }
         }
 
         .title {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
+            letter-spacing: -0.5px;
             margin-bottom: 8px;
-            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
         }
 
         .subtitle {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--text-secondary);
             font-weight: 400;
+            letter-spacing: 0.2px;
         }
 
-        /* Progress Bar */
-        .progress-container {
-            margin-bottom: 32px;
+        /* Progress Section */
+        .progress-section {
+            margin-bottom: 28px;
         }
 
         .progress-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .progress-label {
-            font-size: 13px;
-            color: var(--text-secondary);
+            font-size: 12px;
+            color: var(--text-muted);
             font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .progress-count {
-            font-size: 13px;
-            color: var(--accent-primary);
+            font-size: 12px;
             font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .progress-bar {
-            height: 6px;
-            background: var(--bg-card);
+        .progress-track {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 100px;
             overflow: hidden;
             position: relative;
@@ -210,307 +369,508 @@
 
         .progress-fill {
             height: 100%;
-            background: var(--gradient-1);
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 100%;
             border-radius: 100px;
             width: 0%;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
+            animation: progressGradient 3s linear infinite;
+        }
+
+        @keyframes progressGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
 
         .progress-fill::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
             right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.3),
-                transparent
-            );
-            animation: progressShine 2s infinite;
-        }
-
-        @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Cards */
-        .cards {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.02) 100%);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px var(--accent-primary);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
-        .card:hover {
-            background: var(--bg-card-hover);
-            border-color: rgba(99, 102, 241, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .card:hover::before {
+        .progress-fill.active::after {
             opacity: 1;
         }
 
-        .card.completed {
-            border-color: var(--success);
-            background: rgba(34, 197, 94, 0.05);
+        /* Step Cards */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .card.completed .card-icon {
+        .step-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, 
+                rgba(255,255,255,0.1) 0%, 
+                transparent 50%,
+                transparent 100%
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .step-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent
+            );
+            transition: left 0.5s ease;
+        }
+
+        .step-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
+        }
+
+        .step-card:hover::before {
+            opacity: 1;
+        }
+
+        .step-card:hover::after {
+            left: 100%;
+        }
+
+        .step-card:active {
+            transform: translateX(4px) scale(0.99);
+        }
+
+        /* Completed State */
+        .step-card.completed {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .step-card.completed .step-icon {
             background: var(--success);
-            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
-        }
-
-        .card.completed .check-icon {
-            opacity: 1;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
             transform: scale(1);
         }
 
-        .card-icon {
-            width: 48px;
-            height: 48px;
+        .step-card.completed .step-icon i:first-child {
+            opacity: 0;
+            transform: scale(0) rotate(-180deg);
+        }
+
+        .step-card.completed .step-icon .check {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        .step-card.completed .step-number {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Step Icon */
+        .step-icon {
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             flex-shrink: 0;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
+            overflow: hidden;
         }
 
-        .card-icon.youtube {
-            background: var(--youtube);
-            box-shadow: 0 8px 24px rgba(255, 0, 0, 0.2);
+        .step-icon i {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .card-icon.discord {
-            background: var(--discord);
-            box-shadow: 0 8px 24px rgba(88, 101, 242, 0.2);
-        }
-
-        .check-icon {
+        .step-icon .check {
             position: absolute;
-            top: -4px;
-            right: -4px;
-            width: 20px;
-            height: 20px;
-            background: var(--success);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
             opacity: 0;
-            transform: scale(0);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 2px solid var(--bg-primary);
+            transform: scale(0) rotate(180deg);
         }
 
-        .card-content {
+        .step-icon.youtube {
+            background: linear-gradient(135deg, #ff0033, #cc0029);
+            box-shadow: 0 8px 20px rgba(255, 0, 51, 0.3);
+        }
+
+        .step-icon.discord {
+            background: linear-gradient(135deg, #5865f2, #4752c4);
+            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.3);
+        }
+
+        .step-card:hover .step-icon {
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        /* Step Content */
+        .step-content {
             flex: 1;
+            min-width: 0;
         }
 
-        .card-title {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: var(--text-primary);
-        }
-
-        .card-description {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        .card-arrow {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
+        .step-header {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+            margin-bottom: 2px;
+        }
+
+        .step-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
+
+        .step-number {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
             color: var(--text-muted);
             transition: all 0.3s ease;
         }
 
-        .card:hover .card-arrow {
+        .step-description {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.1px;
+        }
+
+        /* Step Arrow */
+        .step-arrow {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 12px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+        }
+
+        .step-card:hover .step-arrow {
             background: rgba(99, 102, 241, 0.2);
             color: var(--accent-primary);
             transform: translateX(4px);
         }
 
-        .card.completed .card-arrow {
-            background: rgba(34, 197, 94, 0.2);
+        .step-card.completed .step-arrow {
+            background: rgba(16, 185, 129, 0.2);
             color: var(--success);
         }
 
-        /* Get Script Button */
-        .get-script-btn {
+        /* Unlock Button */
+        .unlock-btn {
             width: 100%;
-            padding: 18px 24px;
-            border-radius: 14px;
-            border: none;
-            font-size: 16px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 14px;
             font-weight: 600;
             font-family: inherit;
             cursor: not-allowed;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            background: var(--bg-card);
+            background: rgba(255, 255, 255, 0.02);
             color: var(--text-muted);
-            border: 1px solid var(--border-color);
+            letter-spacing: 0.3px;
         }
 
-        .get-script-btn.locked i {
-            animation: shake 2s infinite;
+        .unlock-btn .btn-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
-        @keyframes shake {
+        .unlock-btn .btn-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .unlock-btn .btn-icon {
+            font-size: 16px;
+            transition: all 0.4s ease;
+        }
+
+        .unlock-btn.locked .btn-icon {
+            animation: lockWiggle 3s ease-in-out infinite;
+        }
+
+        @keyframes lockWiggle {
             0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
+            20% { transform: rotate(-8deg); }
+            40% { transform: rotate(8deg); }
+            60% { transform: rotate(-5deg); }
+            80% { transform: rotate(5deg); }
         }
 
-        .get-script-btn.unlocked {
-            background: var(--gradient-1);
-            color: white;
+        /* Unlocked State */
+        .unlock-btn.unlocked {
             cursor: pointer;
             border: none;
-            box-shadow: 
-                0 10px 40px rgba(99, 102, 241, 0.4),
-                0 0 0 0 rgba(99, 102, 241, 0.4);
-            animation: unlockPulse 2s infinite;
+            color: white;
         }
 
-        @keyframes unlockPulse {
-            0%, 100% { 
-                box-shadow: 
-                    0 10px 40px rgba(99, 102, 241, 0.4),
-                    0 0 0 0 rgba(99, 102, 241, 0.4);
-            }
-            50% { 
-                box-shadow: 
-                    0 15px 50px rgba(99, 102, 241, 0.5),
-                    0 0 0 10px rgba(99, 102, 241, 0);
-            }
+        .unlock-btn.unlocked .btn-bg {
+            opacity: 1;
         }
 
-        .get-script-btn.unlocked::before {
+        .unlock-btn.unlocked::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            inset: -2px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            border-radius: 14px;
+            z-index: -1;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        .unlock-btn.unlocked::after {
+            content: '';
+            position: absolute;
+            inset: 0;
             background: linear-gradient(
                 45deg,
                 transparent 30%,
-                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.2) 50%,
                 transparent 70%
             );
-            animation: btnShine 3s infinite;
+            transform: translateX(-100%);
+            animation: btnShine 2s ease-in-out infinite;
+        }
+
+        @keyframes borderRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
         }
 
         @keyframes btnShine {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
+            0% { transform: translateX(-100%); }
+            60%, 100% { transform: translateX(100%); }
         }
 
-        .get-script-btn.unlocked:hover {
-            transform: translateY(-3px);
+        .unlock-btn.unlocked:hover {
+            transform: translateY(-2px) scale(1.01);
             box-shadow: 
-                0 20px 50px rgba(99, 102, 241, 0.5),
-                0 0 0 0 rgba(99, 102, 241, 0);
+                0 20px 40px rgba(99, 102, 241, 0.4),
+                0 0 60px rgba(99, 102, 241, 0.2);
         }
 
-        .get-script-btn.unlocked:active {
-            transform: translateY(-1px);
+        .unlock-btn.unlocked:active {
+            transform: translateY(0) scale(0.99);
         }
 
-        .btn-icon {
-            font-size: 18px;
+        .unlock-btn.unlocked .btn-icon {
+            animation: unlockBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes unlockBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Glow Effect for Unlocked */
+        .glow-container {
+            position: absolute;
+            inset: -20px;
+            background: radial-gradient(circle at center, 
+                rgba(99, 102, 241, 0.3) 0%, 
+                transparent 70%
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .unlock-btn.unlocked .glow-container {
+            opacity: 1;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
 
         /* Status Message */
         .status-message {
             text-align: center;
             margin-top: 16px;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
+            transition: all 0.4s ease;
         }
 
         .status-message i {
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .status-message.complete {
             color: var(--success);
         }
 
+        .status-message.complete i {
+            animation: checkPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes checkPop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            margin: 20px 0;
+        }
+
         /* Footer */
         .footer {
             text-align: center;
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
         }
 
         .footer-text {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         .footer-link {
             color: var(--accent-primary);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .footer-link:hover {
             color: var(--accent-secondary);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .footer-heart {
+            color: #ef4444;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: rgba(15, 15, 20, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 20px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            z-index: 1001;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--success), #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            animation: toastIconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes toastIconPop {
+            0% { transform: scale(0) rotate(-180deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .toast-content h4 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .toast-content p {
+            font-size: 11px;
+            color: var(--text-muted);
         }
 
         /* Confetti */
@@ -527,67 +887,55 @@
 
         .confetti {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            top: -10px;
-            animation: confettiFall 3s linear forwards;
+            top: -20px;
+            animation: confettiFall 4s ease-out forwards;
         }
 
         @keyframes confettiFall {
             0% {
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) rotate(0deg) scale(1);
                 opacity: 1;
             }
             100% {
-                transform: translateY(100vh) rotate(720deg);
+                transform: translateY(100vh) rotate(1080deg) scale(0);
                 opacity: 0;
             }
         }
 
-        /* Toast Notification */
-        .toast {
+        /* Success Explosion */
+        .success-explosion {
             position: fixed;
-            bottom: 30px;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 16px 24px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            z-index: 1001;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 999;
         }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .toast-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--success);
+        .explosion-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--success);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
+            animation: explode 1s ease-out forwards;
+            opacity: 0;
         }
 
-        .toast-content h4 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .toast-content p {
-            font-size: 12px;
-            color: var(--text-muted);
+        @keyframes explode {
+            0% {
+                width: 20px;
+                height: 20px;
+                opacity: 1;
+            }
+            100% {
+                width: 400px;
+                height: 400px;
+                opacity: 0;
+            }
         }
 
         /* Responsive */
@@ -596,24 +944,33 @@
                 padding: 30px 16px;
             }
 
+            .main-card {
+                padding: 28px 20px;
+                border-radius: 24px;
+            }
+
             .title {
-                font-size: 24px;
+                font-size: 22px;
             }
 
             .logo {
-                width: 70px;
-                height: 70px;
-                font-size: 30px;
+                width: 64px;
+                height: 64px;
+                font-size: 24px;
             }
 
-            .card {
-                padding: 16px;
+            .step-card {
+                padding: 12px 14px;
             }
 
-            .card-icon {
-                width: 44px;
-                height: 44px;
-                font-size: 18px;
+            .step-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 16px;
+            }
+
+            .unlock-btn {
+                padding: 13px 20px;
             }
         }
 
@@ -623,27 +980,47 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.3);
             transform: scale(0);
-            animation: ripple 0.6s linear;
+            animation: rippleEffect 0.6s ease-out;
             pointer-events: none;
         }
 
-        @keyframes ripple {
+        @keyframes rippleEffect {
             to {
                 transform: scale(4);
                 opacity: 0;
             }
         }
+
+        /* Cursor Trail */
+        .cursor-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, var(--accent-primary), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
     </style>
 </head>
 <body>
-    <!-- Background Animation -->
-    <div class="bg-animation"></div>
-    
-    <!-- Particles -->
-    <div class="particles" id="particles"></div>
+    <!-- Background Wrapper -->
+    <div class="bg-wrapper">
+        <div class="bg-gradient"></div>
+        <div class="mesh-grid"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="particles-container" id="particles"></div>
+    </div>
 
     <!-- Confetti Container -->
     <div class="confetti-container" id="confetti"></div>
+
+    <!-- Success Explosion -->
+    <div class="success-explosion" id="explosion"></div>
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">
@@ -651,109 +1028,126 @@
             <i class="fas fa-check"></i>
         </div>
         <div class="toast-content">
-            <h4>Step Completed!</h4>
-            <p>Keep going to unlock the script</p>
+            <h4 id="toastTitle">Step Completed!</h4>
+            <p id="toastMessage">Keep going to unlock the script</p>
         </div>
     </div>
 
     <!-- Main Container -->
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <i class="fas fa-code"></i>
-            </div>
-            <h1 class="title">Get KS Rivals Script</h1>
-            <p class="subtitle">Complete all steps below to unlock your script</p>
-        </header>
-
-        <!-- Progress Bar -->
-        <div class="progress-container">
-            <div class="progress-header">
-                <span class="progress-label">Progress</span>
-                <span class="progress-count"><span id="completedCount">0</span>/3 completed</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-        </div>
-
-        <!-- Cards -->
-        <div class="cards">
-            <!-- YouTube Subscribe -->
-            <div class="card" id="subscribeCard" onclick="handleAction('subscribe')">
-                <div class="card-icon youtube">
-                    <i class="fab fa-youtube"></i>
-                    <div class="check-icon">
-                        <i class="fas fa-check"></i>
+        <div class="main-card">
+            <!-- Header -->
+            <header class="header">
+                <div class="logo-wrapper">
+                    <div class="logo-glow"></div>
+                    <div class="logo-ring"></div>
+                    <div class="logo">
+                        <i class="fas fa-bolt"></i>
                     </div>
                 </div>
-                <div class="card-content">
-                    <div class="card-title">Subscribe to Channel</div>
-                    <div class="card-description">Subscribe to KS Script on YouTube</div>
+                <h1 class="title">Get KS Rivals Script</h1>
+                <p class="subtitle">Complete all steps to unlock your script</p>
+            </header>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-label">Progress</span>
+                    <span class="progress-count"><span id="completedCount">0</span> of 3</span>
                 </div>
-                <div class="card-arrow">
-                    <i class="fas fa-arrow-right"></i>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill"></div>
                 </div>
             </div>
 
-            <!-- YouTube Like -->
-            <div class="card" id="likeCard" onclick="handleAction('like')">
-                <div class="card-icon youtube">
-                    <i class="fas fa-heart"></i>
-                    <div class="check-icon">
-                        <i class="fas fa-check"></i>
+            <!-- Step Cards -->
+            <div class="steps-container">
+                <!-- Step 1: Subscribe -->
+                <div class="step-card" id="subscribeCard" onclick="handleAction('subscribe')">
+                    <div class="step-icon youtube">
+                        <i class="fab fa-youtube"></i>
+                        <i class="fas fa-check check"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span class="step-title">Subscribe to Channel</span>
+                            <span class="step-number">01</span>
+                        </div>
+                        <span class="step-description">Subscribe to KS Script on YouTube</span>
+                    </div>
+                    <div class="step-arrow">
+                        <i class="fas fa-arrow-right"></i>
                     </div>
                 </div>
-                <div class="card-content">
-                    <div class="card-title">Like the Video</div>
-                    <div class="card-description">Show your support with a like</div>
-                </div>
-                <div class="card-arrow">
-                    <i class="fas fa-arrow-right"></i>
-                </div>
-            </div>
 
-            <!-- Discord Join -->
-            <div class="card" id="discordCard" onclick="handleAction('discord')">
-                <div class="card-icon discord">
-                    <i class="fab fa-discord"></i>
-                    <div class="check-icon">
-                        <i class="fas fa-check"></i>
+                <!-- Step 2: Like -->
+                <div class="step-card" id="likeCard" onclick="handleAction('like')">
+                    <div class="step-icon youtube">
+                        <i class="fas fa-heart"></i>
+                        <i class="fas fa-check check"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span class="step-title">Like the Video</span>
+                            <span class="step-number">02</span>
+                        </div>
+                        <span class="step-description">Show your support with a like</span>
+                    </div>
+                    <div class="step-arrow">
+                        <i class="fas fa-arrow-right"></i>
                     </div>
                 </div>
-                <div class="card-content">
-                    <div class="card-title">Join Discord Server</div>
-                    <div class="card-description">Join our community for updates</div>
-                </div>
-                <div class="card-arrow">
-                    <i class="fas fa-arrow-right"></i>
+
+                <!-- Step 3: Discord -->
+                <div class="step-card" id="discordCard" onclick="handleAction('discord')">
+                    <div class="step-icon discord">
+                        <i class="fab fa-discord"></i>
+                        <i class="fas fa-check check"></i>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-header">
+                            <span class="step-title">Join Discord Server</span>
+                            <span class="step-number">03</span>
+                        </div>
+                        <span class="step-description">Join our community for updates</span>
+                    </div>
+                    <div class="step-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
                 </div>
             </div>
+
+            <!-- Unlock Button -->
+            <button class="unlock-btn locked" id="unlockBtn" onclick="handleUnlock()">
+                <div class="glow-container"></div>
+                <div class="btn-bg"></div>
+                <div class="btn-content">
+                    <i class="fas fa-lock btn-icon" id="btnIcon"></i>
+                    <span id="btnText">Complete All Steps to Unlock</span>
+                </div>
+            </button>
+
+            <!-- Status Message -->
+            <div class="status-message" id="statusMessage">
+                <i class="fas fa-info-circle"></i>
+                <span id="statusText">Complete all 3 steps to unlock</span>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider"></div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p class="footer-text">
+                    Powered by <a href="#" class="footer-link">KS Script</a> 
+                    <span class="footer-heart">♥</span>
+                </p>
+            </footer>
         </div>
-
-        <!-- Get Script Button -->
-        <button class="get-script-btn locked" id="getScriptBtn" onclick="getScript()">
-            <i class="fas fa-lock btn-icon"></i>
-            <span id="btnText">Complete All Steps to Unlock</span>
-        </button>
-
-        <!-- Status Message -->
-        <div class="status-message" id="statusMessage">
-            <i class="fas fa-info-circle"></i>
-            <span>Complete all 3 steps to unlock the script</span>
-        </div>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p class="footer-text">
-                Powered by <a href="#" class="footer-link">KS Script</a> • Made with ❤️
-            </p>
-        </footer>
     </div>
 
     <script>
-        // State management
+        // State
         const state = {
             subscribe: false,
             like: false,
@@ -764,174 +1158,268 @@
         const urls = {
             subscribe: 'https://www.youtube.com/@KS_SCRIPT_Owner?sub_confirmation=1',
             like: 'https://www.youtube.com/shorts/bGm4dt_Isrk',
-            discord: 'https://discord.com/channels/@me', // Replace with actual Discord invite link
+            discord: 'https://discord.com/channels/@me',
             script: 'https://ks-script.github.io/KS.WEB/'
         };
 
-        // Create floating particles
-        function createParticles() {
+        // DOM Elements
+        const cards = {
+            subscribe: document.getElementById('subscribeCard'),
+            like: document.getElementById('likeCard'),
+            discord: document.getElementById('discordCard')
+        };
+
+        // Initialize Particles
+        function initParticles() {
             const container = document.getElementById('particles');
-            for (let i = 0; i < 20; i++) {
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDelay = Math.random() * 20 + 's';
                 particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
                 container.appendChild(particle);
             }
         }
 
-        // Handle action click
+        // Handle Action
         function handleAction(action) {
-            // Open the URL
-            window.open(urls[action], '_blank');
+            const card = cards[action];
             
-            // Mark as completed after a short delay
+            // Create ripple
+            createRipple(card, event);
+            
+            // Open URL
+            window.open(urls[action], '_blank');
+
+            // Mark as complete after delay
             setTimeout(() => {
                 if (!state[action]) {
                     state[action] = true;
-                    updateUI();
-                    showToast();
-                    
-                    // Check if all completed
-                    if (isAllCompleted()) {
-                        setTimeout(() => {
-                            createConfetti();
-                        }, 500);
+                    card.classList.add('completed');
+                    updateProgress();
+                    showToast(action);
+
+                    if (isAllComplete()) {
+                        setTimeout(unlockScript, 500);
                     }
                 }
-            }, 1000);
+            }, 1500);
         }
 
-        // Update UI based on state
-        function updateUI() {
-            const cards = {
-                subscribe: document.getElementById('subscribeCard'),
-                like: document.getElementById('likeCard'),
-                discord: document.getElementById('discordCard')
-            };
+        // Update Progress
+        function updateProgress() {
+            const completed = Object.values(state).filter(Boolean).length;
+            const percentage = (completed / 3) * 100;
+            
+            document.getElementById('completedCount').textContent = completed;
+            
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = percentage + '%';
+            progressFill.classList.toggle('active', completed > 0);
+        }
 
-            let completedCount = 0;
+        // Check if all complete
+        function isAllComplete() {
+            return Object.values(state).every(Boolean);
+        }
 
-            // Update cards
-            for (const [key, card] of Object.entries(cards)) {
-                if (state[key]) {
-                    card.classList.add('completed');
-                    completedCount++;
-                }
-            }
-
-            // Update progress
-            document.getElementById('completedCount').textContent = completedCount;
-            document.getElementById('progressFill').style.width = (completedCount / 3 * 100) + '%';
-
-            // Update button
-            const btn = document.getElementById('getScriptBtn');
+        // Unlock Script
+        function unlockScript() {
+            const btn = document.getElementById('unlockBtn');
+            const btnIcon = document.getElementById('btnIcon');
             const btnText = document.getElementById('btnText');
             const statusMessage = document.getElementById('statusMessage');
+            const statusText = document.getElementById('statusText');
 
-            if (isAllCompleted()) {
-                btn.classList.remove('locked');
-                btn.classList.add('unlocked');
-                btn.innerHTML = '<i class="fas fa-unlock btn-icon"></i><span>Get Your Script Now!</span>';
-                statusMessage.innerHTML = '<i class="fas fa-check-circle"></i><span>All steps completed! Click the button above</span>';
-                statusMessage.classList.add('complete');
-            }
+            btn.classList.remove('locked');
+            btn.classList.add('unlocked');
+            btnIcon.className = 'fas fa-unlock btn-icon';
+            btnText.textContent = 'Get Your Script Now';
+
+            statusMessage.classList.add('complete');
+            statusText.textContent = 'All steps completed! Click to continue';
+            statusMessage.querySelector('i').className = 'fas fa-check-circle';
+
+            // Effects
+            createExplosion();
+            setTimeout(createConfetti, 200);
         }
 
-        // Check if all steps are completed
-        function isAllCompleted() {
-            return state.subscribe && state.like && state.discord;
-        }
-
-        // Get script action
-        function getScript() {
-            if (isAllCompleted()) {
-                // Add ripple effect
-                const btn = document.getElementById('getScriptBtn');
-                createRipple(btn, event);
-                
+        // Handle Unlock Button Click
+        function handleUnlock() {
+            if (isAllComplete()) {
+                createRipple(document.getElementById('unlockBtn'), event);
                 setTimeout(() => {
                     window.location.href = urls.script;
-                }, 300);
+                }, 400);
             }
         }
 
-        // Create ripple effect
+        // Create Ripple Effect
         function createRipple(element, e) {
             const ripple = document.createElement('span');
             ripple.className = 'ripple';
             
             const rect = element.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
+            const x = (e?.clientX || rect.left + rect.width / 2) - rect.left;
+            const y = (e?.clientY || rect.top + rect.height / 2) - rect.top;
             
             ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = (e?.clientX || rect.left + rect.width / 2) - rect.left - size / 2 + 'px';
-            ripple.style.top = (e?.clientY || rect.top + rect.height / 2) - rect.top - size / 2 + 'px';
+            ripple.style.left = x - size / 2 + 'px';
+            ripple.style.top = y - size / 2 + 'px';
             
             element.appendChild(ripple);
-            
             setTimeout(() => ripple.remove(), 600);
         }
 
-        // Show toast notification
-        function showToast() {
+        // Show Toast
+        function showToast(action) {
             const toast = document.getElementById('toast');
-            const completedCount = Object.values(state).filter(Boolean).length;
-            
-            toast.querySelector('h4').textContent = 'Step Completed!';
-            toast.querySelector('p').textContent = 
-                completedCount === 3 
-                    ? 'All steps done! Script unlocked!' 
-                    : `${3 - completedCount} more step${3 - completedCount > 1 ? 's' : ''} to go`;
-            
+            const title = document.getElementById('toastTitle');
+            const message = document.getElementById('toastMessage');
+            const completed = Object.values(state).filter(Boolean).length;
+
+            const titles = {
+                subscribe: 'Subscribed!',
+                like: 'Video Liked!',
+                discord: 'Discord Joined!'
+            };
+
+            title.textContent = titles[action];
+            message.textContent = completed === 3 
+                ? 'All done! Script unlocked!' 
+                : `${3 - completed} step${3 - completed > 1 ? 's' : ''} remaining`;
+
             toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Create confetti effect
+        // Create Explosion
+        function createExplosion() {
+            const container = document.getElementById('explosion');
+            container.innerHTML = '';
+
+            for (let i = 0; i < 3; i++) {
+                const ring = document.createElement('div');
+                ring.className = 'explosion-ring';
+                ring.style.animationDelay = i * 0.15 + 's';
+                container.appendChild(ring);
+            }
+        }
+
+        // Create Confetti
         function createConfetti() {
             const container = document.getElementById('confetti');
-            const colors = ['#6366f1', '#8b5cf6', '#22c55e', '#f59e0b', '#ec4899'];
-            
-            for (let i = 0; i < 50; i++) {
+            const colors = ['#6366f1', '#a855f7', '#10b981', '#06b6d4', '#f59e0b', '#ef4444'];
+            const shapes = ['square', 'circle'];
+
+            for (let i = 0; i < 60; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
-                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    container.appendChild(confetti);
                     
-                    setTimeout(() => confetti.remove(), 3000);
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    const size = Math.random() * 10 + 5;
+                    
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.width = size + 'px';
+                    confetti.style.height = size + 'px';
+                    confetti.style.backgroundColor = color;
+                    confetti.style.borderRadius = shape === 'circle' ? '50%' : '2px';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    
+                    container.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
                 }, i * 30);
             }
         }
 
+        // Mouse Trail Effect
+        function initMouseTrail() {
+            const trails = [];
+            const trailCount = 5;
+
+            for (let i = 0; i < trailCount; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                document.body.appendChild(trail);
+                trails.push(trail);
+            }
+
+            let mouseX = 0, mouseY = 0;
+            let trailPositions = [];
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            function animate() {
+                trailPositions.unshift({ x: mouseX, y: mouseY });
+                if (trailPositions.length > trailCount) {
+                    trailPositions.pop();
+                }
+
+                trails.forEach((trail, index) => {
+                    if (trailPositions[index]) {
+                        trail.style.left = trailPositions[index].x + 'px';
+                        trail.style.top = trailPositions[index].y + 'px';
+                        trail.style.opacity = (1 - index / trailCount) * 0.5;
+                        trail.style.transform = `translate(-50%, -50%) scale(${1 - index * 0.15})`;
+                    }
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        // Interactive Card Tilt
+        function initCardTilt() {
+            const mainCard = document.querySelector('.main-card');
+            
+            mainCard.addEventListener('mousemove', (e) => {
+                const rect = mainCard.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 30;
+                const rotateY = (centerX - x) / 30;
+                
+                mainCard.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            mainCard.addEventListener('mouseleave', () => {
+                mainCard.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            
-            // Add hover effects to cards
-            document.querySelectorAll('.card').forEach(card => {
-                card.addEventListener('mouseenter', (e) => {
-                    createRipple(card, e);
-                });
-            });
-        });
+            initParticles();
+            initMouseTrail();
+            initCardTilt();
 
-        // Prevent accidental clicks
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                if (!this.classList.contains('completed')) {
-                    createRipple(this, e);
-                }
+            // Add stagger animation to cards
+            document.querySelectorAll('.step-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 800 + index * 100);
             });
         });
     </script>
