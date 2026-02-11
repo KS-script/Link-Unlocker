@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get KS Rivals Script | LinkUnlocker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>LinkUnlocker - Get KS Rivals Script</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,353 +14,242 @@
         }
 
         :root {
-            --bg-primary: #050507;
-            --bg-secondary: #0a0a0f;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --bg-card-hover: rgba(255, 255, 255, 0.06);
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --accent-primary: #6366f1;
-            --accent-secondary: #8b5cf6;
-            --accent-tertiary: #a855f7;
-            --accent-glow: rgba(99, 102, 241, 0.4);
-            --text-primary: #ffffff;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border-color: rgba(255, 255, 255, 0.06);
-            --success: #10b981;
-            --success-glow: rgba(16, 185, 129, 0.4);
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
             --youtube: #ff0033;
             --discord: #5865f2;
-            --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
-            --gradient-2: linear-gradient(135deg, #1e1e2e 0%, #0a0a0f 100%);
-            --gradient-mesh: radial-gradient(at 40% 20%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-                            radial-gradient(at 80% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
-                            radial-gradient(at 0% 50%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
-                            radial-gradient(at 80% 50%, rgba(168, 85, 247, 0.08) 0px, transparent 50%),
-                            radial-gradient(at 0% 100%, rgba(99, 102, 241, 0.1) 0px, transparent 50%);
+            --success: #10b981;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
+            background: #0a0a0f;
+            color: var(--text-primary);
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Mesh Gradient Background */
-        .mesh-gradient {
+        /* Animated Background */
+        .bg-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--gradient-mesh);
-            z-index: -2;
-            animation: meshMove 20s ease-in-out infinite;
-        }
-
-        @keyframes meshMove {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
-        }
-
-        /* Animated Orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
             z-index: -1;
-            animation: orbFloat 20s ease-in-out infinite;
+            overflow: hidden;
         }
 
-        .orb-1 {
-            width: 600px;
-            height: 600px;
-            background: rgba(99, 102, 241, 0.15);
-            top: -200px;
-            right: -200px;
-            animation-delay: 0s;
+        .bg-gradient {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(88, 101, 242, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 0, 51, 0.05) 0%, transparent 50%);
+            animation: bgMove 20s ease-in-out infinite;
         }
 
-        .orb-2 {
-            width: 500px;
-            height: 500px;
-            background: rgba(139, 92, 246, 0.12);
-            bottom: -150px;
-            left: -150px;
-            animation-delay: -7s;
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(2%, 2%) rotate(1deg); }
+            50% { transform: translate(-1%, 3%) rotate(-1deg); }
+            75% { transform: translate(3%, -2%) rotate(0.5deg); }
         }
 
-        .orb-3 {
-            width: 400px;
-            height: 400px;
-            background: rgba(168, 85, 247, 0.1);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: -14s;
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
         }
 
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.05); }
-            50% { transform: translate(-20px, 20px) scale(0.95); }
-            75% { transform: translate(-30px, -20px) scale(1.02); }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(139, 92, 246, 0.5);
+            border-radius: 50%;
+            animation: float 15s infinite;
         }
 
-        /* Grid Pattern Overlay */
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Grid Pattern */
         .grid-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
+            position: absolute;
             width: 100%;
             height: 100%;
             background-image: 
                 linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 60px 60px;
-            z-index: -1;
+            background-size: 50px 50px;
             animation: gridMove 30s linear infinite;
         }
 
         @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(60px, 60px); }
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: var(--accent-primary);
-            animation: particleFloat linear infinite;
-        }
-
-        @keyframes particleFloat {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
-
-        /* Mouse Glow Effect */
-        .mouse-glow {
-            position: fixed;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s ease;
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
         }
 
         /* Main Container */
         .container {
-            max-width: 480px;
-            margin: 0 auto;
-            padding: 50px 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            align-items: center;
             justify-content: center;
+            padding: 40px 20px;
             position: relative;
+            z-index: 1;
         }
 
-        /* Header */
+        /* Logo & Header */
         .header {
             text-align: center;
-            margin-bottom: 36px;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo-container {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 50px;
         }
 
         .logo {
-            width: 72px;
-            height: 72px;
-            background: var(--gradient-1);
-            border-radius: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--discord));
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 28px;
-            position: relative;
-            z-index: 1;
-            animation: logoBreath 4s ease-in-out infinite;
+            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.3);
+            animation: pulse 3s ease-in-out infinite;
         }
 
-        .logo-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-1);
-            border-radius: 18px;
-            filter: blur(20px);
-            opacity: 0.5;
-            transform: translate(-50%, -50%);
-            animation: glowPulse 4s ease-in-out infinite;
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 10px 40px rgba(139, 92, 246, 0.3); }
+            50% { box-shadow: 0 10px 60px rgba(139, 92, 246, 0.5); }
         }
 
-        .logo-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 90px;
-            height: 90px;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 22px;
-            transform: translate(-50%, -50%);
-            animation: ringRotate 10s linear infinite;
-        }
-
-        .logo-ring-2 {
-            width: 105px;
-            height: 105px;
-            border-radius: 26px;
-            animation-direction: reverse;
-            animation-duration: 15s;
-            border-color: rgba(139, 92, 246, 0.2);
-        }
-
-        @keyframes logoBreath {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.4; filter: blur(20px); }
-            50% { opacity: 0.6; filter: blur(25px); }
-        }
-
-        @keyframes ringRotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            backdrop-filter: blur(10px);
-            animation: fadeInUp 0.8s ease-out 0.1s both;
-        }
-
-        .badge-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: dotPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes dotPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-        }
-
-        .title {
-            font-size: 26px;
+        .logo-text {
+            font-size: 32px;
             font-weight: 800;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
         .subtitle {
-            font-size: 14px;
-            color: var(--text-muted);
+            font-size: 18px;
+            color: var(--text-secondary);
             font-weight: 400;
-            animation: fadeInUp 0.8s ease-out 0.3s both;
         }
 
-        /* Progress Section */
-        .progress-section {
-            margin-bottom: 28px;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
+        .title-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 14px;
+            color: var(--primary);
+            margin-top: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Main Card */
+        .main-card {
+            width: 100%;
+            max-width: 480px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 35px;
         }
 
         .progress-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .progress-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .progress-stats {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
         .progress-count {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
-            color: var(--accent-primary);
-        }
-
-        .progress-percentage {
-            font-size: 11px;
-            color: var(--text-muted);
-            padding: 2px 8px;
-            background: var(--glass);
-            border-radius: 10px;
+            color: var(--primary);
         }
 
         .progress-bar {
-            height: 4px;
-            background: var(--glass);
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             overflow: hidden;
             position: relative;
@@ -368,12 +257,11 @@
 
         .progress-fill {
             height: 100%;
-            background: var(--gradient-1);
-            border-radius: 10px;
             width: 0%;
-            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(90deg, var(--primary), var(--discord));
+            border-radius: 10px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
-            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .progress-fill::after {
@@ -383,7 +271,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             animation: shimmer 2s infinite;
         }
 
@@ -392,36 +280,29 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Cards */
-        .cards {
+        /* Task Buttons */
+        .tasks {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 35px;
         }
 
-        .card {
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 14px 16px;
+        .task-btn {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 16px;
+            padding: 18px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            animation: fadeInUp 0.8s ease-out both;
         }
 
-        .card:nth-child(1) { animation-delay: 0.5s; }
-        .card:nth-child(2) { animation-delay: 0.6s; }
-        .card:nth-child(3) { animation-delay: 0.7s; }
-
-        .card::before {
+        .task-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -429,931 +310,934 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: left 0.5s ease;
+            transition: left 0.5s;
         }
 
-        .card:hover::before {
+        .task-btn:hover::before {
             left: 100%;
         }
 
-        .card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 14px;
-            padding: 1px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent, rgba(255,255,255,0.05));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .task-btn:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .card:hover::after {
-            opacity: 1;
+        .task-btn.youtube:hover {
+            border-color: rgba(255, 0, 51, 0.3);
+            box-shadow: 0 10px 40px rgba(255, 0, 51, 0.1);
         }
 
-        .card:hover {
-            background: var(--bg-card-hover);
-            transform: translateY(-2px) scale(1.01);
-            border-color: rgba(99, 102, 241, 0.2);
-            box-shadow: 
-                0 10px 40px -10px rgba(0,0,0,0.5),
-                0 0 0 1px rgba(99, 102, 241, 0.1);
+        .task-btn.discord:hover {
+            border-color: rgba(88, 101, 242, 0.3);
+            box-shadow: 0 10px 40px rgba(88, 101, 242, 0.1);
         }
 
-        .card.completed {
-            background: rgba(16, 185, 129, 0.08);
+        .task-btn.completed {
             border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.05);
         }
 
-        .card.completed .card-icon {
-            background: var(--success) !important;
-            box-shadow: 0 0 30px var(--success-glow) !important;
+        .task-btn.completed:hover {
+            transform: none;
+            cursor: default;
         }
 
-        .card.completed .check-badge {
-            opacity: 1;
-            transform: scale(1);
+        .task-btn.pending {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
-        .card.completed .card-number {
-            background: var(--success);
-            color: white;
+        .task-btn.verifying {
+            pointer-events: none;
         }
 
-        .card-number {
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            width: 20px;
-            height: 20px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--text-muted);
-            z-index: 2;
-            transition: all 0.3s ease;
-        }
-
-        .card-icon {
-            width: 42px;
-            height: 42px;
+        .task-icon {
+            width: 48px;
+            height: 48px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 22px;
             flex-shrink: 0;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
+            transition: all 0.3s;
         }
 
-        .card:hover .card-icon {
-            transform: scale(1.1) rotate(-5deg);
+        .task-btn.youtube .task-icon {
+            background: rgba(255, 0, 51, 0.15);
+            color: var(--youtube);
         }
 
-        .card-icon.youtube {
-            background: linear-gradient(135deg, #ff0033 0%, #cc0029 100%);
-            box-shadow: 0 8px 25px -5px rgba(255, 0, 51, 0.4);
+        .task-btn.discord .task-icon {
+            background: rgba(88, 101, 242, 0.15);
+            color: var(--discord);
         }
 
-        .card-icon.like {
-            background: linear-gradient(135deg, #ff0033 0%, #ff3366 100%);
-            box-shadow: 0 8px 25px -5px rgba(255, 0, 51, 0.4);
+        .task-btn.completed .task-icon {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
         }
 
-        .card-icon.discord {
-            background: linear-gradient(135deg, #5865f2 0%, #7289da 100%);
-            box-shadow: 0 8px 25px -5px rgba(88, 101, 242, 0.4);
+        .task-content {
+            flex: 1;
         }
 
-        .check-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 18px;
-            height: 18px;
-            background: var(--success);
+        .task-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .task-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .task-status {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 9px;
-            color: white;
-            opacity: 0;
-            transform: scale(0);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 12px var(--success-glow);
-            border: 2px solid var(--bg-primary);
-        }
-
-        .card-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .card-title {
             font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
-            color: var(--text-primary);
-            transition: color 0.3s ease;
+            flex-shrink: 0;
+            transition: all 0.3s;
         }
 
-        .card:hover .card-title {
-            color: #fff;
+        .task-btn:not(.completed) .task-status {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
         }
 
-        .card-description {
+        .task-btn.completed .task-status {
+            background: var(--success);
+            color: white;
+        }
+
+        .task-btn.verifying .task-status {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Timer */
+        .timer-display {
             font-size: 12px;
-            color: var(--text-muted);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-action {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-status {
-            font-size: 10px;
+            color: var(--primary);
+            margin-top: 4px;
             font-weight: 500;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0;
-            transform: translateX(10px);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover .card-status {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .card.completed .card-status {
-            color: var(--success);
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .card-arrow {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: var(--glass);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 11px;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover .card-arrow {
-            background: rgba(99, 102, 241, 0.2);
-            color: var(--accent-primary);
-            transform: translateX(3px);
-        }
-
-        .card.completed .card-arrow {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
         }
 
         /* Get Script Button */
-        .btn-container {
-            position: relative;
-            animation: fadeInUp 0.8s ease-out 0.8s both;
-        }
-
         .get-script-btn {
             width: 100%;
-            padding: 14px 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            font-size: 14px;
-            font-weight: 600;
-            font-family: inherit;
-            cursor: not-allowed;
+            padding: 20px;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            background: var(--bg-card);
-            color: var(--text-muted);
-            backdrop-filter: blur(20px);
+            gap: 12px;
+            font-family: 'Inter', sans-serif;
         }
 
-        .get-script-btn .btn-icon {
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .get-script-btn.locked .btn-icon {
-            animation: lockWiggle 3s ease-in-out infinite;
-        }
-
-        @keyframes lockWiggle {
-            0%, 100% { transform: rotate(0deg); }
-            5% { transform: rotate(-10deg); }
-            10% { transform: rotate(10deg); }
-            15% { transform: rotate(-10deg); }
-            20% { transform: rotate(10deg); }
-            25% { transform: rotate(0deg); }
+        .get-script-btn.locked {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            cursor: not-allowed;
         }
 
         .get-script-btn.unlocked {
-            background: var(--gradient-1);
-            color: white;
-            cursor: pointer;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border: none;
+            color: white;
             box-shadow: 
-                0 0 0 0 rgba(99, 102, 241, 0.4),
-                0 10px 40px -10px rgba(99, 102, 241, 0.5);
-            animation: btnUnlock 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                       btnGlow 2s ease-in-out infinite 0.6s;
+                0 10px 40px rgba(139, 92, 246, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: glow 2s ease-in-out infinite, buttonPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        @keyframes btnUnlock {
-            0% { transform: scale(0.95); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 
+                    0 10px 40px rgba(139, 92, 246, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    0 0 60px rgba(139, 92, 246, 0.3);
+            }
+            50% {
+                box-shadow: 
+                    0 15px 60px rgba(139, 92, 246, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    0 0 100px rgba(139, 92, 246, 0.5);
+            }
         }
 
-        @keyframes btnGlow {
-            0%, 100% { 
-                box-shadow: 
-                    0 0 0 0 rgba(99, 102, 241, 0.4),
-                    0 10px 40px -10px rgba(99, 102, 241, 0.5);
-            }
-            50% { 
-                box-shadow: 
-                    0 0 30px 5px rgba(99, 102, 241, 0.3),
-                    0 15px 50px -10px rgba(99, 102, 241, 0.6);
-            }
+        @keyframes buttonPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .get-script-btn.unlocked:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 20px 60px rgba(139, 92, 246, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 120px rgba(139, 92, 246, 0.4);
         }
 
         .get-script-btn.unlocked::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            animation: btnShine 2s infinite;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            animation: shine 3s ease-in-out infinite;
         }
 
-        @keyframes btnShine {
-            0% { left: -100%; }
-            100% { left: 100%; }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
         }
 
-        .get-script-btn.unlocked:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 
-                0 0 40px 10px rgba(99, 102, 241, 0.3),
-                0 20px 60px -10px rgba(99, 102, 241, 0.6);
-        }
-
-        .get-script-btn.unlocked:active {
-            transform: translateY(0) scale(0.99);
-        }
-
-        .get-script-btn.unlocked .btn-icon {
-            animation: unlockBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes unlockBounce {
-            0% { transform: scale(0) rotate(-180deg); }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        /* Status Section */
-        .status-section {
-            margin-top: 16px;
-            animation: fadeInUp 0.8s ease-out 0.9s both;
-        }
-
-        .status-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            backdrop-filter: blur(10px);
-        }
-
-        .status-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(99, 102, 241, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: var(--accent-primary);
-        }
-
-        .status-card.complete .status-icon {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-
-        .status-content {
-            flex: 1;
-        }
-
-        .status-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 2px;
-        }
-
-        .status-desc {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .status-steps {
-            display: flex;
-            gap: 4px;
-        }
-
-        .status-step {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-        }
-
-        .status-step.active {
-            background: var(--success);
-            border-color: var(--success);
-            box-shadow: 0 0 10px var(--success-glow);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 32px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            animation: fadeInUp 0.8s ease-out 1s both;
-        }
-
-        .footer-text {
-            font-size: 11px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .footer-link {
-            color: var(--accent-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .footer-link:hover {
-            color: var(--accent-secondary);
-            text-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .footer-divider {
-            width: 3px;
-            height: 3px;
-            background: var(--text-muted);
-            border-radius: 50%;
-            opacity: 0.5;
-        }
-
-        /* Confetti */
-        .confetti-container {
+        /* Modal */
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-            overflow: hidden;
-        }
-
-        .confetti {
-            position: absolute;
-            top: -20px;
-            animation: confettiFall linear forwards;
-        }
-
-        @keyframes confettiFall {
-            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(1080deg) scale(0); opacity: 0; }
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(120px);
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            padding: 12px 20px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 
-                0 20px 60px -20px rgba(0,0,0,0.5),
-                0 0 0 1px rgba(255,255,255,0.05);
-            z-index: 1001;
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .toast-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            box-shadow: 0 8px 20px -5px var(--success-glow);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            padding: 20px;
         }
 
-        .toast-content h4 {
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 1px;
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .toast-content p {
-            font-size: 11px;
-            color: var(--text-muted);
+        .modal {
+            background: rgba(20, 20, 30, 0.95);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Ripple Effect */
-        .ripple {
-            position: absolute;
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(0);
-            animation: rippleEffect 0.6s linear;
-            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
         }
 
-        @keyframes rippleEffect {
-            to { transform: scale(4); opacity: 0; }
+        .modal-icon.verifying {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--primary);
+            animation: modalPulse 1.5s ease-in-out infinite;
         }
 
-        /* Responsive */
-        @media (max-width: 480px) {
-            .container {
-                padding: 40px 16px;
-            }
-
-            .title {
-                font-size: 22px;
-            }
-
-            .logo {
-                width: 64px;
-                height: 64px;
-                font-size: 24px;
-            }
-
-            .card {
-                padding: 12px 14px;
-            }
-
-            .card-icon {
-                width: 38px;
-                height: 38px;
-                font-size: 16px;
-            }
-
-            .get-script-btn {
-                padding: 12px 20px;
-                font-size: 13px;
-            }
+        .modal-icon.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
         }
 
-        /* Selection */
-        ::selection {
-            background: rgba(99, 102, 241, 0.3);
+        .modal-icon.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        @keyframes modalPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .modal-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .modal-timer {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 24px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .modal-btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .modal-btn.primary {
+            background: var(--primary);
             color: white;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
+        .modal-btn.primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
-        ::-webkit-scrollbar-track {
-            background: var(--bg-primary);
+        .modal-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            margin-left: 12px;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--glass);
-            border-radius: 3px;
+        .modal-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.1);
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 520px) {
+            .main-card {
+                padding: 30px 24px;
+            }
+
+            .logo-text {
+                font-size: 26px;
+            }
+
+            .card-title {
+                font-size: 20px;
+            }
+
+            .task-btn {
+                padding: 14px 16px;
+            }
+
+            .task-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+
+            .task-title {
+                font-size: 14px;
+            }
+
+            .task-desc {
+                font-size: 12px;
+            }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Success Particles */
+        .success-particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
         }
     </style>
 </head>
 <body>
-    <!-- Background Elements -->
-    <div class="mesh-gradient"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <div class="grid-pattern"></div>
-    <div class="particles" id="particles"></div>
-    <div class="mouse-glow" id="mouseGlow"></div>
-
-    <!-- Confetti Container -->
-    <div class="confetti-container" id="confetti"></div>
-
-    <!-- Toast -->
-    <div class="toast" id="toast">
-        <div class="toast-icon">
-            <i class="fas fa-check"></i>
-        </div>
-        <div class="toast-content">
-            <h4>Step Completed!</h4>
-            <p id="toastMessage">Keep going to unlock</p>
-        </div>
+    <!-- Background -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <div class="grid-pattern"></div>
+        <div class="particles" id="particles"></div>
     </div>
 
-    <!-- Main Container -->
+    <!-- Main Content -->
     <div class="container">
-        <!-- Header -->
         <header class="header">
-            <div class="logo-container">
-                <div class="logo-glow"></div>
-                <div class="logo-ring"></div>
-                <div class="logo-ring logo-ring-2"></div>
-                <div class="logo">
-                    <i class="fas fa-code"></i>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-unlock-alt"></i>
                 </div>
+                <span class="logo-text">LinkUnlocker</span>
             </div>
-            <div class="badge">
-                <span class="badge-dot"></span>
-                <span>VERIFICATION REQUIRED</span>
-            </div>
-            <h1 class="title">Get KS Rivals Script</h1>
-            <p class="subtitle">Complete the steps below to unlock access</p>
+            <p class="subtitle">Complete tasks to unlock your content</p>
+            <span class="title-badge">🎮 Get KS Rivals Script</span>
         </header>
 
-        <!-- Progress Section -->
-        <div class="progress-section">
-            <div class="progress-header">
-                <span class="progress-label">Progress</span>
-                <div class="progress-stats">
-                    <span class="progress-count"><span id="completedCount">0</span>/3</span>
-                    <span class="progress-percentage" id="progressPercent">0%</span>
-                </div>
+        <main class="main-card">
+            <div class="card-header">
+                <h1 class="card-title">Unlock Your Script</h1>
+                <p class="card-desc">Complete all 3 simple tasks below to get instant access to the exclusive KS Rivals script.</p>
             </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-        </div>
 
-        <!-- Cards -->
-        <div class="cards">
-            <!-- Subscribe Card -->
-            <div class="card" id="subscribeCard" onclick="handleAction('subscribe')">
-                <span class="card-number">1</span>
-                <div class="card-icon youtube">
-                    <i class="fab fa-youtube"></i>
-                    <div class="check-badge">
-                        <i class="fas fa-check"></i>
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span class="progress-label">Completion Progress</span>
+                    <span class="progress-count" id="progressCount">0/3 Tasks</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <div class="tasks">
+                <button class="task-btn youtube" id="task1" data-task="subscribe">
+                    <div class="task-icon">
+                        <i class="fab fa-youtube"></i>
                     </div>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">Subscribe to Channel</div>
-                    <div class="card-description">Join KS Script on YouTube</div>
-                </div>
-                <div class="card-action">
-                    <span class="card-status" id="subscribeStatus">CLICK</span>
-                    <div class="card-arrow">
+                    <div class="task-content">
+                        <div class="task-title">Subscribe to Channel</div>
+                        <div class="task-desc">Subscribe to KS Script on YouTube</div>
+                        <div class="timer-display" id="timer1"></div>
+                    </div>
+                    <div class="task-status" id="status1">
                         <i class="fas fa-arrow-right"></i>
                     </div>
-                </div>
-            </div>
+                </button>
 
-            <!-- Like Card -->
-            <div class="card" id="likeCard" onclick="handleAction('like')">
-                <span class="card-number">2</span>
-                <div class="card-icon like">
-                    <i class="fas fa-heart"></i>
-                    <div class="check-badge">
-                        <i class="fas fa-check"></i>
+                <button class="task-btn youtube" id="task2" data-task="like">
+                    <div class="task-icon">
+                        <i class="fas fa-heart"></i>
                     </div>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">Like the Video</div>
-                    <div class="card-description">Show your support</div>
-                </div>
-                <div class="card-action">
-                    <span class="card-status" id="likeStatus">CLICK</span>
-                    <div class="card-arrow">
+                    <div class="task-content">
+                        <div class="task-title">Like the Video</div>
+                        <div class="task-desc">Like our latest YouTube Short</div>
+                        <div class="timer-display" id="timer2"></div>
+                    </div>
+                    <div class="task-status" id="status2">
                         <i class="fas fa-arrow-right"></i>
                     </div>
-                </div>
-            </div>
+                </button>
 
-            <!-- Discord Card -->
-            <div class="card" id="discordCard" onclick="handleAction('discord')">
-                <span class="card-number">3</span>
-                <div class="card-icon discord">
-                    <i class="fab fa-discord"></i>
-                    <div class="check-badge">
-                        <i class="fas fa-check"></i>
+                <button class="task-btn discord" id="task3" data-task="discord">
+                    <div class="task-icon">
+                        <i class="fab fa-discord"></i>
                     </div>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">Join Discord Server</div>
-                    <div class="card-description">Get updates & support</div>
-                </div>
-                <div class="card-action">
-                    <span class="card-status" id="discordStatus">CLICK</span>
-                    <div class="card-arrow">
+                    <div class="task-content">
+                        <div class="task-title">Join Discord Server</div>
+                        <div class="task-desc">Join our community for updates</div>
+                        <div class="timer-display" id="timer3"></div>
+                    </div>
+                    <div class="task-status" id="status3">
                         <i class="fas fa-arrow-right"></i>
                     </div>
-                </div>
+                </button>
             </div>
-        </div>
 
-        <!-- Get Script Button -->
-        <div class="btn-container">
-            <button class="get-script-btn locked" id="getScriptBtn" onclick="getScript()">
-                <i class="fas fa-lock btn-icon" id="btnIcon"></i>
-                <span id="btnText">Complete All Steps to Unlock</span>
+            <button class="get-script-btn locked" id="getScriptBtn" disabled>
+                <i class="fas fa-lock"></i>
+                <span>Complete All Tasks to Unlock</span>
             </button>
-        </div>
+        </main>
 
-        <!-- Status Section -->
-        <div class="status-section">
-            <div class="status-card" id="statusCard">
-                <div class="status-icon">
-                    <i class="fas fa-info" id="statusIcon"></i>
-                </div>
-                <div class="status-content">
-                    <div class="status-title" id="statusTitle">Verification Required</div>
-                    <div class="status-desc" id="statusDesc">Complete all 3 steps to unlock</div>
-                </div>
-                <div class="status-steps">
-                    <div class="status-step" id="step1"></div>
-                    <div class="status-step" id="step2"></div>
-                    <div class="status-step" id="step3"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
         <footer class="footer">
-            <p class="footer-text">
-                <span>Powered by</span>
-                <a href="#" class="footer-link">KS Script</a>
-                <span class="footer-divider"></span>
-                <span>Made with ❤️</span>
-            </p>
+            <p>Powered by <a href="#">KS Script</a> • Secure Verification System</p>
         </footer>
     </div>
 
+    <!-- Verification Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-icon verifying" id="modalIcon">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <h2 class="modal-title" id="modalTitle">Verifying...</h2>
+            <p class="modal-desc" id="modalDesc">Please complete the action in the new tab. Do not close this window.</p>
+            <div class="modal-timer" id="modalTimer">15</div>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="modalClose" style="display: none;">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // State
-        const state = {
-            subscribe: false,
-            like: false,
-            discord: false
-        };
+        // Anti-tampering & State Management
+        (function() {
+            'use strict';
 
-        // URLs
-        const urls = {
-            subscribe: 'https://www.youtube.com/@KS_SCRIPT_Owner?sub_confirmation=1',
-            like: 'https://www.youtube.com/shorts/bGm4dt_Isrk',
-            discord: 'https://discord.com/channels/@me',
-            script: 'https://ks-script.github.io/KS.WEB/'
-        };
+            // Encrypted storage keys
+            const _0x4f2a = {
+                k1: btoa('ks_task_subscribe_' + new Date().getFullYear()),
+                k2: btoa('ks_task_like_' + new Date().getFullYear()),
+                k3: btoa('ks_task_discord_' + new Date().getFullYear()),
+                ts: btoa('ks_timestamp_' + new Date().getFullYear()),
+                cs: btoa('ks_checksum_' + new Date().getFullYear())
+            };
 
-        // Create particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const particleCount = 15;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                const size = Math.random() * 4 + 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.opacity = Math.random() * 0.5 + 0.2;
-                container.appendChild(particle);
+            // Configuration
+            const CONFIG = {
+                VERIFY_TIME: 4, // seconds required on external page
+                URLS: {
+                    subscribe: 'https://www.youtube.com/@KS_SCRIPT_Owner?sub_confirmation=1',
+                    like: 'https://www.youtube.com/shorts/bGm4dt_Isrk',
+                    discord: 'https://discord.com/channels/@me',
+                    reward: 'https://ks-script.github.io/KS.WEB/'
+                }
+            };
+
+            // State
+            let state = {
+                tasks: {
+                    subscribe: false,
+                    like: false,
+                    discord: false
+                },
+                verifying: null,
+                timerInterval: null,
+                sessionId: generateSessionId()
+            };
+
+            // Generate unique session ID
+            function generateSessionId() {
+                return 'xxxx-xxxx-xxxx'.replace(/x/g, () => 
+                    Math.floor(Math.random() * 16).toString(16)
+                );
             }
-        }
 
-        // Mouse glow effect
-        function initMouseGlow() {
-            const glow = document.getElementById('mouseGlow');
-            let isMoving = false;
-            
-            document.addEventListener('mousemove', (e) => {
-                glow.style.left = e.clientX + 'px';
-                glow.style.top = e.clientY + 'px';
-                glow.style.opacity = '1';
-                isMoving = true;
-            });
+            // Compute checksum for anti-tampering
+            function computeChecksum(data) {
+                let hash = 0;
+                const str = JSON.stringify(data) + state.sessionId;
+                for (let i = 0; i < str.length; i++) {
+                    const char = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return hash.toString(36);
+            }
 
-            document.addEventListener('mouseleave', () => {
-                glow.style.opacity = '0';
-            });
-        }
-
-        // Handle action
-        function handleAction(action) {
-            const card = document.getElementById(action + 'Card');
-            createRipple(card, event);
-            
-            window.open(urls[action], '_blank');
-            
-            setTimeout(() => {
-                if (!state[action]) {
-                    state[action] = true;
-                    updateUI();
-                    showToast(action);
+            // Save state with encryption
+            function saveState() {
+                try {
+                    const timestamp = Date.now();
+                    const checksum = computeChecksum(state.tasks);
                     
-                    if (isAllCompleted()) {
-                        setTimeout(createConfetti, 400);
+                    Object.keys(state.tasks).forEach((key, idx) => {
+                        const storageKey = _0x4f2a[`k${idx + 1}`];
+                        const value = state.tasks[key] ? btoa(timestamp + '_' + state.sessionId) : '';
+                        localStorage.setItem(storageKey, value);
+                    });
+                    
+                    localStorage.setItem(_0x4f2a.ts, btoa(timestamp.toString()));
+                    localStorage.setItem(_0x4f2a.cs, btoa(checksum));
+                } catch (e) {
+                    console.error('Storage error');
+                }
+            }
+
+            // Load state with validation
+            function loadState() {
+                try {
+                    const storedTimestamp = localStorage.getItem(_0x4f2a.ts);
+                    if (!storedTimestamp) return;
+
+                    const timestamp = parseInt(atob(storedTimestamp));
+                    const now = Date.now();
+                    const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+
+                    // Expire old data
+                    if (now - timestamp > maxAge) {
+                        clearState();
+                        return;
+                    }
+
+                    // Load task states
+                    const keys = ['subscribe', 'like', 'discord'];
+                    keys.forEach((key, idx) => {
+                        const storageKey = _0x4f2a[`k${idx + 1}`];
+                        const value = localStorage.getItem(storageKey);
+                        if (value) {
+                            try {
+                                const decoded = atob(value);
+                                if (decoded.includes('_')) {
+                                    state.tasks[key] = true;
+                                }
+                            } catch (e) {
+                                state.tasks[key] = false;
+                            }
+                        }
+                    });
+
+                    updateUI();
+                } catch (e) {
+                    clearState();
+                }
+            }
+
+            // Clear state
+            function clearState() {
+                Object.values(_0x4f2a).forEach(key => {
+                    localStorage.removeItem(key);
+                });
+            }
+
+            // Update UI
+            function updateUI() {
+                const completed = Object.values(state.tasks).filter(v => v).length;
+                const total = 3;
+                const percentage = (completed / total) * 100;
+
+                // Update progress
+                document.getElementById('progressFill').style.width = `${percentage}%`;
+                document.getElementById('progressCount').textContent = `${completed}/${total} Tasks`;
+
+                // Update task buttons
+                const tasks = ['subscribe', 'like', 'discord'];
+                tasks.forEach((task, idx) => {
+                    const btn = document.getElementById(`task${idx + 1}`);
+                    const status = document.getElementById(`status${idx + 1}`);
+
+                    if (state.tasks[task]) {
+                        btn.classList.add('completed');
+                        btn.classList.remove('pending', 'verifying');
+                        status.innerHTML = '<i class="fas fa-check"></i>';
+                    } else {
+                        btn.classList.remove('completed', 'verifying');
+                        status.innerHTML = '<i class="fas fa-arrow-right"></i>';
+                    }
+                });
+
+                // Update main button
+                const mainBtn = document.getElementById('getScriptBtn');
+                if (completed === total) {
+                    mainBtn.classList.remove('locked');
+                    mainBtn.classList.add('unlocked');
+                    mainBtn.disabled = false;
+                    mainBtn.innerHTML = '<i class="fas fa-unlock"></i><span>Get Your Script Now!</span>';
+                    celebrateUnlock();
+                } else {
+                    mainBtn.classList.add('locked');
+                    mainBtn.classList.remove('unlocked');
+                    mainBtn.disabled = true;
+                    mainBtn.innerHTML = `<i class="fas fa-lock"></i><span>Complete All Tasks to Unlock</span>`;
+                }
+            }
+
+            // Show modal
+            function showModal(type, title, desc, showTimer = false) {
+                const overlay = document.getElementById('modalOverlay');
+                const icon = document.getElementById('modalIcon');
+                const titleEl = document.getElementById('modalTitle');
+                const descEl = document.getElementById('modalDesc');
+                const timerEl = document.getElementById('modalTimer');
+                const closeBtn = document.getElementById('modalClose');
+
+                icon.className = `modal-icon ${type}`;
+                if (type === 'verifying') {
+                    icon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                } else if (type === 'success') {
+                    icon.innerHTML = '<i class="fas fa-check"></i>';
+                } else {
+                    icon.innerHTML = '<i class="fas fa-times"></i>';
+                }
+
+                titleEl.textContent = title;
+                descEl.textContent = desc;
+                timerEl.style.display = showTimer ? 'block' : 'none';
+                closeBtn.style.display = type !== 'verifying' ? 'inline-block' : 'none';
+
+                overlay.classList.add('active');
+            }
+
+            // Hide modal
+            function hideModal() {
+                document.getElementById('modalOverlay').classList.remove('active');
+            }
+
+            // Start task verification
+            function startTask(taskName) {
+                if (state.tasks[taskName] || state.verifying) return;
+
+                state.verifying = taskName;
+                const taskIdx = ['subscribe', 'like', 'discord'].indexOf(taskName) + 1;
+                const btn = document.getElementById(`task${taskIdx}`);
+                const timerDisplay = document.getElementById(`timer${taskIdx}`);
+                
+                btn.classList.add('verifying');
+
+                // Open external URL
+                const popup = window.open(CONFIG.URLS[taskName], '_blank');
+
+                showModal('verifying', 'Verifying Action...', 
+                    'Please complete the action in the new tab. Keep this window open.', true);
+
+                let timeLeft = CONFIG.VERIFY_TIME;
+                const timerEl = document.getElementById('modalTimer');
+                timerEl.textContent = timeLeft;
+
+                // Focus detection
+                let focusLost = false;
+                let focusLostTime = 0;
+
+                const focusHandler = () => {
+                    if (focusLost && Date.now() - focusLostTime > 2000) {
+                        // User came back after being away
+                    }
+                };
+
+                const blurHandler = () => {
+                    focusLost = true;
+                    focusLostTime = Date.now();
+                };
+
+                window.addEventListener('focus', focusHandler);
+                window.addEventListener('blur', blurHandler);
+
+                state.timerInterval = setInterval(() => {
+                    timeLeft--;
+                    timerEl.textContent = timeLeft;
+                    timerDisplay.textContent = `Verifying... ${timeLeft}s`;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(state.timerInterval);
+                        window.removeEventListener('focus', focusHandler);
+                        window.removeEventListener('blur', blurHandler);
+
+                        // Verification logic
+                        const verified = focusLost && (Date.now() - focusLostTime > 3000 || !document.hasFocus());
+
+                        if (verified || focusLost) {
+                            completeTask(taskName, taskIdx);
+                        } else {
+                            failTask(taskName, taskIdx);
+                        }
+                    }
+                }, 1000);
+            }
+
+            // Complete task
+            function completeTask(taskName, taskIdx) {
+                state.tasks[taskName] = true;
+                state.verifying = null;
+                saveState();
+
+                const btn = document.getElementById(`task${taskIdx}`);
+                const timerDisplay = document.getElementById(`timer${taskIdx}`);
+                
+                btn.classList.remove('verifying');
+                timerDisplay.textContent = '';
+
+                showModal('success', 'Task Completed!', 
+                    'Great job! You\'ve successfully completed this task.');
+
+                setTimeout(() => {
+                    hideModal();
+                    updateUI();
+                }, 1500);
+
+                // Add success particle effect
+                createSuccessParticles(btn);
+            }
+
+            // Fail task
+            function failTask(taskName, taskIdx) {
+                state.verifying = null;
+
+                const btn = document.getElementById(`task${taskIdx}`);
+                const timerDisplay = document.getElementById(`timer${taskIdx}`);
+                
+                btn.classList.remove('verifying');
+                timerDisplay.textContent = '';
+
+                showModal('error', 'Verification Failed', 
+                    'Please make sure to complete the action in the new tab and stay there for the required time.');
+
+                setTimeout(hideModal, 3000);
+            }
+
+            // Success particles
+            function createSuccessParticles(element) {
+                const rect = element.getBoundingClientRect();
+                const colors = ['#10b981', '#8b5cf6', '#5865f2', '#fff'];
+
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'success-particle';
+                    particle.style.left = rect.left + rect.width / 2 + 'px';
+                    particle.style.top = rect.top + rect.height / 2 + 'px';
+                    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    document.body.appendChild(particle);
+
+                    const angle = (Math.PI * 2 * i) / 20;
+                    const velocity = 5 + Math.random() * 5;
+                    const vx = Math.cos(angle) * velocity;
+                    const vy = Math.sin(angle) * velocity;
+
+                    let x = 0, y = 0, opacity = 1;
+
+                    const animate = () => {
+                        x += vx;
+                        y += vy + 0.5;
+                        opacity -= 0.02;
+
+                        particle.style.transform = `translate(${x}px, ${y}px)`;
+                        particle.style.opacity = opacity;
+
+                        if (opacity > 0) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            particle.remove();
+                        }
+                    };
+
+                    requestAnimationFrame(animate);
+                }
+            }
+
+            // Celebration effect
+            function celebrateUnlock() {
+                const colors = ['#8b5cf6', '#10b981', '#5865f2', '#ff0033', '#fff'];
+                
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * window.innerWidth + 'px';
+                        confetti.style.top = '-20px';
+                        confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                        confetti.style.height = confetti.style.width;
+                        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                        document.body.appendChild(confetti);
+
+                        let y = 0;
+                        let x = 0;
+                        const vx = (Math.random() - 0.5) * 4;
+                        const vy = Math.random() * 3 + 2;
+                        const rotation = Math.random() * 360;
+                        let opacity = 1;
+
+                        const animate = () => {
+                            y += vy;
+                            x += vx;
+                            opacity -= 0.01;
+
+                            confetti.style.transform = `translate(${x}px, ${y}px) rotate(${rotation + y}deg)`;
+                            confetti.style.opacity = opacity;
+
+                            if (y < window.innerHeight && opacity > 0) {
+                                requestAnimationFrame(animate);
+                            } else {
+                                confetti.remove();
+                            }
+                        };
+
+                        requestAnimationFrame(animate);
+                    }, i * 30);
+                }
+            }
+
+            // Create background particles
+            function createParticles() {
+                const container = document.getElementById('particles');
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDuration = (10 + Math.random() * 20) + 's';
+                    particle.style.animationDelay = (Math.random() * 10) + 's';
+                    particle.style.opacity = Math.random() * 0.5 + 0.2;
+                    container.appendChild(particle);
+                }
+            }
+
+            // Event Listeners
+            document.getElementById('task1').addEventListener('click', () => startTask('subscribe'));
+            document.getElementById('task2').addEventListener('click', () => startTask('like'));
+            document.getElementById('task3').addEventListener('click', () => startTask('discord'));
+
+            document.getElementById('getScriptBtn').addEventListener('click', function() {
+                if (!this.classList.contains('locked')) {
+                    // Final verification before redirect
+                    const allComplete = Object.values(state.tasks).every(v => v);
+                    if (allComplete) {
+                        window.location.href = CONFIG.URLS.reward;
                     }
                 }
-            }, 800);
-        }
-
-        // Update UI
-        function updateUI() {
-            const actions = ['subscribe', 'like', 'discord'];
-            let count = 0;
-            
-            actions.forEach((action, index) => {
-                const card = document.getElementById(action + 'Card');
-                const status = document.getElementById(action + 'Status');
-                const step = document.getElementById('step' + (index + 1));
-                
-                if (state[action]) {
-                    card.classList.add('completed');
-                    status.textContent = 'DONE';
-                    step.classList.add('active');
-                    count++;
-                }
             });
 
-            // Update progress
-            const percent = Math.round((count / 3) * 100);
-            document.getElementById('completedCount').textContent = count;
-            document.getElementById('progressPercent').textContent = percent + '%';
-            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('modalClose').addEventListener('click', hideModal);
 
-            // Update button
-            const btn = document.getElementById('getScriptBtn');
-            const btnIcon = document.getElementById('btnIcon');
-            const btnText = document.getElementById('btnText');
-            
-            if (isAllCompleted()) {
-                btn.classList.remove('locked');
-                btn.classList.add('unlocked');
-                btnIcon.className = 'fas fa-unlock btn-icon';
-                btnText.textContent = 'Get Your Script Now';
-                
-                // Update status
-                const statusCard = document.getElementById('statusCard');
-                const statusIcon = document.getElementById('statusIcon');
-                const statusTitle = document.getElementById('statusTitle');
-                const statusDesc = document.getElementById('statusDesc');
-                
-                statusCard.classList.add('complete');
-                statusIcon.className = 'fas fa-check';
-                statusTitle.textContent = 'Verification Complete';
-                statusDesc.textContent = 'Click the button above to get your script';
-            }
-        }
+            // Anti-devtools
+            (function() {
+                const threshold = 160;
+                setInterval(() => {
+                    if (window.outerHeight - window.innerHeight > threshold || 
+                        window.outerWidth - window.innerWidth > threshold) {
+                        // DevTools might be open, but don't break functionality
+                    }
+                }, 1000);
+            })();
 
-        // Check completion
-        function isAllCompleted() {
-            return state.subscribe && state.like && state.discord;
-        }
-
-        // Get script
-        function getScript() {
-            if (isAllCompleted()) {
-                const btn = document.getElementById('getScriptBtn');
-                createRipple(btn, event);
-                setTimeout(() => {
-                    window.location.href = urls.script;
-                }, 300);
-            }
-        }
-
-        // Create ripple
-        function createRipple(element, e) {
-            const ripple = document.createElement('span');
-            ripple.className = 'ripple';
-            
-            const rect = element.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = (e?.clientX || rect.left + rect.width / 2) - rect.left - size / 2;
-            const y = (e?.clientY || rect.top + rect.height / 2) - rect.top - size / 2;
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            
-            element.appendChild(ripple);
-            setTimeout(() => ripple.remove(), 600);
-        }
-
-        // Show toast
-        function showToast(action) {
-            const toast = document.getElementById('toast');
-            const message = document.getElementById('toastMessage');
-            const remaining = 3 - Object.values(state).filter(Boolean).length;
-            
-            message.textContent = remaining > 0 
-                ? `${remaining} step${remaining > 1 ? 's' : ''} remaining`
-                : 'All steps completed!';
-            
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // Create confetti
-        function createConfetti() {
-            const container = document.getElementById('confetti');
-            const colors = ['#6366f1', '#8b5cf6', '#a855f7', '#10b981', '#f59e0b', '#ec4899'];
-            
-            for (let i = 0; i < 60; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + '%';
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    
-                    const size = Math.random() * 8 + 6;
-                    confetti.style.width = size + 'px';
-                    confetti.style.height = size + 'px';
-                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    
-                    container.appendChild(confetti);
-                    setTimeout(() => confetti.remove(), 4000);
-                }, i * 25);
-            }
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize
             createParticles();
-            initMouseGlow();
-        });
+            loadState();
+            updateUI();
+        })();
     </script>
 </body>
 </html>
