@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkUnlocker - Get KS Rivals Script</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="particle-container" id="particleContainer"></div>
+    
+    <div class="container">
+        <header class="header">
+            <h1 class="title">
+                <span class="gradient-text">LinkUnlocker</span>
+            </h1>
+            <p class="subtitle">Complete the steps to unlock KS Rivals Script</p>
+        </header>
+
+        <div class="steps-container">
+            <div class="step-card" data-step="1">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>Subscribe to Channel</h3>
+                    <p>Subscribe to our YouTube channel for latest updates</p>
+                    <button class="action-btn subscribe-btn" id="subscribeBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                        </svg>
+                        Subscribe
+                    </button>
+                </div>
+                <div class="step-status" id="step1Status">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="step-card" data-step="2">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>Like the Video</h3>
+                    <p>Show your support by liking our featured video</p>
+                    <button class="action-btn like-btn" id="likeBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        Like Video
+                    </button>
+                </div>
+                <div class="step-status" id="step2Status">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="unlock-container">
+            <button class="unlock-btn" id="unlockBtn" disabled>
+                <span class="unlock-text">Get KS Rivals Script</span>
+                <div class="unlock-glow"></div>
+            </button>
+            <p class="unlock-hint" id="unlockHint">Complete all steps to unlock</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 LinkUnlocker. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
