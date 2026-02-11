@@ -1,161 +1,161 @@
-// Particle effect
+// Initialize state
+let subscribeClicked = false;
+let likeClicked = false;
+
+// DOM Elements
+const subscribeBtn = document.getElementById('subscribeBtn');
+const likeBtn = document.getElementById('likeBtn');
+const unlockBtn = document.getElementById('unlockBtn');
+const progressFill = document.getElementById('progressFill');
+const step1 = document.getElementById('step1');
+const step2 = document.getElementById('step2');
+const status1 = document.getElementById('status1');
+const status2 = document.getElementById('status2');
+
+// Create floating particles
 function createParticles() {
-    const container = document.getElementById('particleContainer');
+    const particlesContainer = document.getElementById('particles');
     const particleCount = 50;
     
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 15 + 's';
-        particle.style.animationDuration = 15 + Math.random() * 10 + 's';
-        container.appendChild(particle);
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+        particlesContainer.appendChild(particle);
     }
 }
 
-// Initialize particles
-createParticles();
-
-// Track completion status
-let steps = {
-    subscribe: false,
-    like: false
-};
-
-// Check localStorage for previous actions
-function checkPreviousActions() {
-    const subscribed = localStorage.getItem('ks_subscribed');
-    const liked = localStorage.getItem('ks_liked');
+// Update progress
+function updateProgress() {
+    let progress = 0;
+    if (subscribeClicked) progress += 50;
+    if (likeClicked) progress += 50;
     
-    if (subscribed === 'true') {
-        steps.subscribe = true;
-        updateStepStatus(1, true);
-    }
+    progressFill.style.width = progress + '%';
     
-    if (liked === 'true') {
-        steps.like = true;
-        updateStepStatus(2, true);
-    }
-    
-    checkAllStepsCompleted();
-}
-
-// Update step status UI
-function updateStepStatus(stepNumber, completed) {
-    const stepCard = document.querySelector(`[data-step="${stepNumber}"]`);
-    const stepStatus = document.getElementById(`step${stepNumber}Status`);
-    
-    if (completed) {
-        stepCard.classList.add('completed');
-        stepStatus.classList.add('active');
-    }
-}
-
-// Check if all steps are completed
-function checkAllStepsCompleted() {
-    if (steps.subscribe && steps.like) {
-        const unlockBtn = document.getElementById('unlockBtn');
-        const unlockHint = document.getElementById('unlockHint');
-        
+    // Check if both actions are completed
+    if (subscribeClicked && likeClicked) {
         unlockBtn.disabled = false;
-        unlockHint.textContent = '✨ Script is ready! Click to get it';
-        unlockHint.style.color = '#667eea';
+        unlockBtn.classList.add('active');
+        unlockBtn.innerHTML = `
+            <span class="unlock-text">
+                <i class="fas fa-unlock"></i>
+                Get Script Now
+            </span>
+            <div class="unlock-glow"></div>
+        `;
     }
 }
 
-// Subscribe button click handler
-document.getElementById('subscribeBtn').addEventListener('click', function() {
+// Subscribe button click
+subscribeBtn.addEventListener('click', () => {
     // Open YouTube subscribe link
     window.open('https://www.youtube.com/@KS_SCRIPT_Owner?sub_confirmation=1', '_blank');
     
-    // Mark as completed after a delay (simulating user action)
+    // Update UI after delay (simulate user action)
     setTimeout(() => {
-        steps.subscribe = true;
-        localStorage.setItem('ks_subscribed', 'true');
-        updateStepStatus(1, true);
-        checkAllStepsCompleted();
-        
-        // Show success animation
-        this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Subscribed';
-        this.style.background = '#4CAF50';
-        this.disabled = true;
-    }, 3000);
+        subscribeClicked = true;
+        step1.classList.add('completed');
+        status1.innerHTML = '<i class="fas fa-check-circle"></i>';
+        subscribeBtn.disabled = true;
+        subscribeBtn.style.opacity = '0.6';
+        subscribeBtn.innerHTML = '<i class="fas fa-check"></i> Subscribed';
+        updateProgress();
+    }, 1500);
 });
 
-// Like button click handler
-document.getElementById('likeBtn').addEventListener('click', function() {
+// Like button click
+likeBtn.addEventListener('click', () => {
     // Open YouTube video link
     window.open('https://www.youtube.com/shorts/bGm4dt_Isrk', '_blank');
     
-    // Mark as completed after a delay (simulating user action)
+    // Update UI after delay (simulate user action)
     setTimeout(() => {
-        steps.like = true;
-        localStorage.setItem('ks_liked', 'true');
-        updateStepStatus(2, true);
-        checkAllStepsCompleted();
-        
-        // Show success animation
-        this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Liked';
-        this.style.background = '#4CAF50';
-        this.disabled = true;
-    }, 3000);
+        likeClicked = true;
+        step2.classList.add('completed');
+        status2.innerHTML = '<i class="fas fa-check-circle"></i>';
+        likeBtn.disabled = true;
+        likeBtn.style.opacity = '0.6';
+        likeBtn.innerHTML = '<i class="fas fa-check"></i> Liked';
+        updateProgress();
+    }, 1500);
 });
 
-// Unlock button click handler
-document.getElementById('unlockBtn').addEventListener('click', function() {
-    if (!this.disabled) {
-        // Redirect to KS Script website
-        window.location.href = 'https://ks-script.github.io/KS.WEB/';
+// Unlock button click
+unlockBtn.addEventListener('click', () => {
+    if (subscribeClicked && likeClicked) {
+        // Add loading animation
+        unlockBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting...';
+        
+        // Redirect after short delay
+        setTimeout(() => {
+            window.location.href = 'https://ks-script.github.io/KS.WEB/';
+        }, 1000);
     }
 });
 
-// Check previous actions on page load
-checkPreviousActions();
+// Initialize particles on load
+document.addEventListener('DOMContentLoaded', () => {
+    createParticles();
+});
 
-// Add ripple effect to buttons
-document.querySelectorAll('button').forEach(button => {
-    button.addEventListener('click', function(e) {
-        const ripple = document.createElement('span');
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-        
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.classList.add('ripple');
-        
-        this.appendChild(ripple);
-        
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
+// Add keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    // Press 'S' to trigger subscribe
+    if (e.key === 's' || e.key === 'S') {
+        if (!subscribeClicked) {
+            subscribeBtn.click();
+        }
+    }
+    // Press 'L' to trigger like
+    if (e.key === 'l' || e.key === 'L') {
+        if (!likeClicked) {
+            likeBtn.click();
+        }
+    }
+    // Press 'Enter' to unlock if available
+    if (e.key === 'Enter') {
+        if (subscribeClicked && likeClicked && !unlockBtn.disabled) {
+            unlockBtn.click();
+        }
+    }
+});
+
+// Add visual feedback for button hover
+[subscribeBtn, likeBtn].forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+        if (!btn.disabled) {
+            btn.style.transform = 'scale(1.05)';
+        }
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+        if (!btn.disabled) {
+            btn.style.transform = 'scale(1)';
+        }
     });
 });
 
-// Add CSS for ripple effect
-const style = document.createElement('style');
-style.textContent = `
-    button {
-        position: relative;
-        overflow: hidden;
+// Check for returning users (optional feature)
+function checkReturningUser() {
+    const visited = localStorage.getItem('linkUnlockerVisited');
+    if (visited) {
+        // Show welcome back message
+        console.log('Welcome back to LinkUnlocker!');
     }
-    
-    .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.5);
-        transform: scale(0);
-        animation: ripple 0.6s ease-out;
-        pointer-events: none;
-    }
-    
-    @keyframes ripple {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
+    localStorage.setItem('linkUnlockerVisited', 'true');
+}
+
+checkReturningUser();
+
+// Add smooth scroll for mobile
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
