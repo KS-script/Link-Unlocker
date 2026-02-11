@@ -12,7 +12,8 @@ const CONFIG = {
         step1Time: 8,  // YouTube 구독 대기 시간 (초)
         step2Time: 6,  // 좋아요 대기 시간 (초)
         step3Time: 10, // Discord 가입 대기 시간 (초)
-        focusRequired: true // 페이지 복귀 필요 여부
+        focusRequired: true, // 페이지 복귀 필요 여부
+        minInteractionTime: 3000 // 최소 인터랙션 시간 (밀리초)
     },
     storage: {
         key: 'ks_linkunlocker_data',
@@ -25,12 +26,13 @@ const CONFIG = {
 // ============================================
 let state = {
     steps: {
-        1: { clicked: false, verified: false, timestamp: null },
-        2: { clicked: false, verified: false, timestamp: null },
-        3: { clicked: false, verified: false, timestamp: null }
+        1: { clicked: false, verified: false, timestamp: null, windowOpened: false },
+        2: { clicked: false, verified: false, timestamp: null, windowOpened: false },
+        3: { clicked: false, verified: false, timestamp: null, windowOpened: false }
     },
     activeTimers: {},
-    sessionToken: null
+    sessionToken: null,
+    initialized: false
 };
 
 // ============================================
@@ -40,6 +42,16 @@ function generateToken() {
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 15);
     return btoa(`${CONFIG.storage.secret}_${timestamp}_${random}`);
+}
+
+function validateToken(token) {
+    if (!token) return false;
+    try {
+        const decoded = atob(token);
+        return decoded.includes(CONFIG.storage.secret);
+    } catch {
+        return false;
+    }
 }
 
 function encryptData(data) {
@@ -58,8 +70,8 @@ function decryptData(encrypted) {
 
 function saveState() {
     const data = {
-        ...state,
-        token: state.sessionToken,
+        steps: state.steps,
+        sessionToken: state.sessionToken,
         timestamp: Date.now()
     };
     localStorage.setItem(CONFIG.storage.key, encryptData(data));
@@ -69,16 +81,22 @@ function loadState() {
     const saved = localStorage.getItem(CONFIG.storage.key);
     if (saved) {
         const data = decryptData(saved);
-        if (data && data.token) {
+        if (data && data.sessionToken) {
             // 24시간 이내의 데이터만 유효
             const hoursDiff = (Date.now() - data.timestamp) / (1000 * 60 * 60);
             if (hoursDiff < 24) {
-                state = { ...state, ...data };
+                state.steps = data.steps || state.steps;
+                state.sessionToken = data.sessionToken;
+                state.initialized = true;
                 return true;
             }
         }
     }
+    
+    // 새 세션 생성
     state.sessionToken = generateToken();
+    state.initialized = true;
+    saveState();
     return false;
 }
 
@@ -144,19 +162,26 @@ function updateStepUI(stepNum) {
     if (stepData.verified) {
         stepCard.classList.remove('active', 'locked');
         stepCard.classList.add('completed');
-        document.getElementById(`btn${stepNum}`).disabled = true;
-        document.getElementById(`btn${stepNum}`).innerHTML = `
+        
+        const btn = document.getElementById(`btn${stepNum}`);
+        btn.disabled = true;
+        btn.classList.remove('loading');
+        btn.innerHTML = `
             <span class="btn-text">Completed</span>
             <span class="btn-icon"><i class="fas fa-check"></i></span>
         `;
+        
         document.getElementById(`timer${stepNum}`).classList.remove('active');
         
         // Unlock next step
         const nextStep = stepNum + 1;
         if (nextStep <= 3) {
             const nextCard = document.getElementById(`step${nextStep}`);
-            nextCard.classList.remove('locked');
-            document.getElementById(`btn${nextStep}`).disabled = false;
+            const nextBtn = document.getElementById(`btn${nextStep}`);
+            if (nextCard && !state.steps[nextStep].verified) {
+                nextCard.classList.remove('locked');
+                nextBtn.disabled = false;
+            }
         }
     }
     
@@ -169,12 +194,17 @@ function initializeUI() {
     for (let i = 1; i <= 3; i++) {
         if (state.steps[i].verified) {
             updateStepUI(i);
+        } else if (i === 1) {
+            // First step is always unlocked initially
+            document.getElementById('step1').classList.remove('locked');
+            document.getElementById('btn1').disabled = false;
+        } else {
+            // Check if previous step is completed
+            if (state.steps[i - 1].verified) {
+                document.getElementById(`step${i}`).classList.remove('locked');
+                document.getElementById(`btn${i}`).disabled = false;
+            }
         }
-    }
-    
-    // Unlock appropriate steps
-    if (!state.steps[1].verified) {
-        document.getElementById('step1').classList.remove('locked');
     }
     
     updateProgress();
@@ -187,47 +217,89 @@ function startVerification(stepNum, duration) {
     const timerEl = document.getElementById(`timer${stepNum}`);
     const timerText = document.getElementById(`timerText${stepNum}`);
     const btn = document.getElementById(`btn${stepNum}`);
+    const stepCard = document.getElementById(`step${stepNum}`);
+    
+    // Clear any existing timer
+    if (state.activeTimers[stepNum]) {
+        clearInterval(state.activeTimers[stepNum]);
+    }
     
     timerEl.classList.add('active');
     btn.classList.add('loading');
     btn.disabled = true;
+    stepCard.classList.add('active');
     
     let remaining = duration;
-    let isHidden = false;
-    let returnedFromTab = false;
+    let startTime = Date.now();
+    let hasReturnedToTab = false;
+    let wasHidden = false;
     
-    // Track page visibility
-    const visibilityHandler = () => {
+    // Enhanced visibility tracking
+    const checkVisibility = () => {
         if (document.hidden) {
-            isHidden = true;
-        } else if (isHidden) {
-            returnedFromTab = true;
-            isHidden = false;
+            wasHidden = true;
+        } else if (wasHidden) {
+            hasReturnedToTab = true;
+            wasHidden = false;
         }
     };
     
-    document.addEventListener('visibilitychange', visibilityHandler);
+    // Window focus tracking (more reliable)
+    const checkFocus = () => {
+        if (!document.hasFocus()) {
+            wasHidden = true;
+        } else if (wasHidden) {
+            hasReturnedToTab = true;
+            wasHidden = false;
+        }
+    };
+    
+    document.addEventListener('visibilitychange', checkVisibility);
+    window.addEventListener('blur', () => { wasHidden = true; });
+    window.addEventListener('focus', checkFocus);
     
     const updateTimer = () => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        remaining = Math.max(0, duration - elapsed);
+        
         if (remaining > 0) {
             timerText.textContent = `Verifying... ${remaining}s remaining`;
-            remaining--;
         } else {
-            // Verification complete
+            // Cleanup
             clearInterval(state.activeTimers[stepNum]);
-            document.removeEventListener('visibilitychange', visibilityHandler);
+            delete state.activeTimers[stepNum];
+            document.removeEventListener('visibilitychange', checkVisibility);
+            window.removeEventListener('blur', () => { wasHidden = true; });
+            window.removeEventListener('focus', checkFocus);
             
-            // Check if user actually left and returned
-            if (CONFIG.verification.focusRequired && !returnedFromTab) {
-                timerEl.classList.remove('active');
-                btn.classList.remove('loading');
+            timerEl.classList.remove('active');
+            btn.classList.remove('loading');
+            stepCard.classList.remove('active');
+            
+            // Flexible verification based on step
+            let verificationPassed = false;
+            
+            if (stepNum === 1) {
+                // YouTube subscribe - strict check
+                verificationPassed = hasReturnedToTab && (Date.now() - startTime) >= (CONFIG.verification.minInteractionTime);
+            } else if (stepNum === 2) {
+                // YouTube like - medium check
+                verificationPassed = (wasHidden || hasReturnedToTab) && (Date.now() - startTime) >= (CONFIG.verification.minInteractionTime);
+            } else if (stepNum === 3) {
+                // Discord join - lenient check
+                verificationPassed = state.steps[stepNum].windowOpened && (Date.now() - startTime) >= (CONFIG.verification.minInteractionTime);
+            }
+            
+            if (!verificationPassed && CONFIG.verification.focusRequired && stepNum !== 3) {
+                // Failed verification
                 btn.disabled = false;
                 btn.innerHTML = `
                     <span class="btn-text">Try Again</span>
                     <span class="btn-icon"><i class="fas fa-redo"></i></span>
                 `;
-                showToast('warning', 'Verification Failed', 'Please complete the action on the external site.');
+                showToast('warning', 'Verification Failed', 'Please complete the action on the external site and return here.');
                 state.steps[stepNum].clicked = false;
+                state.steps[stepNum].windowOpened = false;
                 saveState();
                 return;
             }
@@ -238,6 +310,17 @@ function startVerification(stepNum, duration) {
             
             updateStepUI(stepNum);
             showToast('success', 'Step Completed!', `Step ${stepNum} has been verified successfully.`);
+            
+            // Auto-unlock next step
+            if (stepNum < 3) {
+                setTimeout(() => {
+                    showToast('success', 'Next Step Unlocked', `You can now proceed with step ${stepNum + 1}.`);
+                }, 1000);
+            } else if (stepNum === 3) {
+                setTimeout(() => {
+                    showToast('success', 'All Steps Complete!', 'You can now get your script!');
+                }, 1000);
+            }
         }
     };
     
@@ -251,8 +334,10 @@ function startVerification(stepNum, duration) {
 function handleStep(stepNum) {
     // Prevent multiple clicks
     if (state.steps[stepNum].clicked && !state.steps[stepNum].verified) {
-        showToast('warning', 'Please Wait', 'Verification is already in progress.');
-        return;
+        if (state.activeTimers[stepNum]) {
+            showToast('warning', 'Please Wait', 'Verification is already in progress.');
+            return;
+        }
     }
     
     // Check prerequisites
@@ -263,6 +348,7 @@ function handleStep(stepNum) {
     
     // Mark as clicked
     state.steps[stepNum].clicked = true;
+    state.steps[stepNum].windowOpened = true;
     state.steps[stepNum].timestamp = Date.now();
     saveState();
     
@@ -284,15 +370,31 @@ function handleStep(stepNum) {
     }
     
     // Open link in new tab
-    window.open(link, '_blank');
+    const newWindow = window.open(link, '_blank');
     
-    // Start verification timer
+    if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+        showToast('error', 'Popup Blocked', 'Please allow popups for this site and try again.');
+        state.steps[stepNum].clicked = false;
+        state.steps[stepNum].windowOpened = false;
+        saveState();
+        return;
+    }
+    
+    // Show initial toast
+    showToast('success', 'Window Opened', `Please complete the action and return to this tab.`);
+    
+    // Start verification timer with slight delay
     setTimeout(() => {
         startVerification(stepNum, duration);
     }, 500);
 }
 
 function getScript() {
+    // Ensure state is loaded
+    if (!state.initialized) {
+        loadState();
+    }
+    
     // Final verification
     const allCompleted = Object.values(state.steps).every(s => s.verified);
     
@@ -301,25 +403,38 @@ function getScript() {
         return;
     }
     
-    // Additional security check
-    const token = state.sessionToken;
-    if (!token || !token.includes(CONFIG.storage.secret)) {
-        showToast('error', 'Invalid Session', 'Please refresh the page and try again.');
+    // Validate session token
+    if (!validateToken(state.sessionToken)) {
+        // Generate new token if invalid
+        state.sessionToken = generateToken();
+        saveState();
+    }
+    
+    // Check timestamps to prevent rapid completion
+    const timestamps = Object.values(state.steps)
+        .map(s => s.timestamp)
+        .filter(t => t !== null);
+    
+    if (timestamps.length !== 3) {
+        showToast('error', 'Verification Error', 'Please complete all steps properly.');
         return;
     }
     
-    // Check timestamps
-    const timestamps = Object.values(state.steps).map(s => s.timestamp);
     const minTime = Math.min(...timestamps);
     const maxTime = Math.max(...timestamps);
     
-    if (maxTime - minTime < 10000) { // Minimum 10 seconds between first and last step
-        showToast('error', 'Verification Error', 'Please complete each step properly.');
+    // Minimum 5 seconds between first and last step (reduced from 10)
+    if (maxTime - minTime < 5000) {
+        showToast('error', 'Verification Error', 'Please take your time to complete each step properly.');
         return;
     }
     
     // Success - redirect
-    showToast('success', 'Unlocking Script...', 'Redirecting you now!');
+    showToast('success', 'Success!', 'Redirecting to your script...');
+    
+    // Add visual feedback
+    const scriptBtn = document.getElementById('scriptBtn');
+    scriptBtn.style.transform = 'scale(0.95)';
     
     setTimeout(() => {
         window.location.href = CONFIG.links.script;
@@ -339,7 +454,15 @@ function closeModal() {
 
 function resetProgress() {
     if (confirm('Are you sure you want to reset all progress? This action cannot be undone.')) {
+        // Clear all timers
+        Object.keys(state.activeTimers).forEach(key => {
+            clearInterval(state.activeTimers[key]);
+        });
+        
+        // Clear storage
         localStorage.removeItem(CONFIG.storage.key);
+        
+        // Reload page
         location.reload();
     }
 }
@@ -349,6 +472,8 @@ function resetProgress() {
 // ============================================
 function createParticles() {
     const container = document.getElementById('particles');
+    if (!container) return;
+    
     const particleCount = 30;
     
     for (let i = 0; i < particleCount; i++) {
@@ -362,69 +487,87 @@ function createParticles() {
 }
 
 // ============================================
-// Anti-Tamper Protection
+// Anti-Tamper Protection (Optional)
 // ============================================
-(function() {
+function initAntiTamper() {
     // Disable right-click context menu
     document.addEventListener('contextmenu', (e) => {
         e.preventDefault();
+        showToast('warning', 'Context Menu Disabled', 'Right-click is disabled on this page.');
+        return false;
     });
     
-    // Detect DevTools
-    let devToolsOpen = false;
-    const threshold = 160;
+    // Warning message for console
+    console.log('%cWarning!', 'color: red; font-size: 40px; font-weight: bold;');
+    console.log('%cThis browser feature is intended for developers. Do not paste any code here.', 'color: white; font-size: 16px;');
     
-    setInterval(() => {
-        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-        
-        if (widthThreshold || heightThreshold) {
-            if (!devToolsOpen) {
-                devToolsOpen = true;
-                console.log('%cWarning!', 'color: red; font-size: 40px; font-weight: bold;');
-                console.log('%cThis browser feature is intended for developers. Do not paste any code here.', 'color: white; font-size: 16px;');
-            }
-        } else {
-            devToolsOpen = false;
-        }
-    }, 1000);
-    
-    // Disable keyboard shortcuts
+    // Disable certain keyboard shortcuts
     document.addEventListener('keydown', (e) => {
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
         if (
+            e.key === 'F12' ||
             (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-            (e.ctrlKey && e.key === 'u') ||
-            e.key === 'F12'
+            (e.ctrlKey && e.key === 'u')
         ) {
             e.preventDefault();
+            showToast('warning', 'Shortcut Disabled', 'Developer shortcuts are disabled.');
+            return false;
         }
     });
-})();
+}
 
 // ============================================
 // Initialization
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    // Create visual effects
     createParticles();
-    loadState();
+    
+    // Load saved state
+    const hasExistingData = loadState();
+    
+    // Initialize UI
     initializeUI();
     
-    // Welcome message for returning users
-    const saved = localStorage.getItem(CONFIG.storage.key);
-    if (saved) {
+    // Initialize anti-tamper (optional - can be commented out during development)
+    // initAntiTamper();
+    
+    // Show welcome message
+    if (hasExistingData) {
         const completed = Object.values(state.steps).filter(s => s.verified).length;
         if (completed > 0 && completed < 3) {
-            showToast('success', 'Welcome Back!', `You have ${completed} step(s) completed. Continue to unlock.`);
+            setTimeout(() => {
+                showToast('success', 'Welcome Back!', `You have ${completed} of 3 steps completed.`);
+            }, 500);
+        } else if (completed === 3) {
+            setTimeout(() => {
+                showToast('success', 'Ready!', 'All steps completed. Click "Get Script" to continue.');
+            }, 500);
         }
+    } else {
+        setTimeout(() => {
+            showToast('success', 'Welcome!', 'Complete all 3 steps to unlock your script.');
+        }, 500);
     }
 });
 
-// Handle page visibility for timer accuracy
+// Handle page visibility for auto-save
 document.addEventListener('visibilitychange', () => {
-    saveState();
+    if (state.initialized) {
+        saveState();
+    }
 });
 
 // Save state before leaving
 window.addEventListener('beforeunload', () => {
-    saveState();
+    if (state.initialized) {
+        saveState();
+    }
+});
+
+// Cleanup timers on page unload
+window.addEventListener('unload', () => {
+    Object.keys(state.activeTimers).forEach(key => {
+        clearInterval(state.activeTimers[key]);
+    });
 });
